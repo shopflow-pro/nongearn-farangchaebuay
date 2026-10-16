@@ -42,14 +42,19 @@
     }
     @media (min-width: 768px) { .container { padding: 0 24px; } }
 
+    /* ================= Header with Custom Background Image ================= */
     header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: var(--white);
-      padding: 24px 16px 20px;
-      box-shadow: var(--shadow-md);
       position: sticky;
       top: 0;
       z-index: 50;
+      color: var(--white);
+      padding: 26px 16px 22px;
+      box-shadow: var(--shadow-md);
+      background-image: linear-gradient(rgba(26, 54, 38, 0.78), rgba(26, 54, 38, 0.88)), 
+                        url('https://lh3.googleusercontent.com/d/1Ubb3nZWgx0cN-CJ4fwHJK4elirLFH_iD');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .header-content {
       display: flex;
@@ -61,37 +66,39 @@
       margin: 0 auto;
     }
     .shop-logo {
-      width: 86px;
-      height: 86px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       object-fit: cover;
       border: 3px solid #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
       background-color: #fff;
     }
     .header-text h1 {
-      font-size: 1.6rem;
+      font-size: 1.65rem;
       font-weight: 700;
       letter-spacing: -0.5px;
       line-height: 1.25;
       margin-bottom: 4px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
     }
     .header-text p.subtitle {
       font-size: 0.95rem;
       color: #ffe8b5;
       font-weight: 400;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
 
     @media (min-width: 640px) {
-      header { padding: 20px 24px; }
+      header { padding: 22px 24px; }
       .header-content {
         flex-direction: row;
         justify-content: center;
         text-align: left;
-        gap: 20px;
+        gap: 22px;
       }
-      .shop-logo { width: 80px; height: 80px; }
-      .header-text h1 { font-size: 1.85rem; }
+      .shop-logo { width: 84px; height: 84px; }
+      .header-text h1 { font-size: 1.9rem; }
       .header-text p.subtitle { font-size: 1.05rem; }
     }
 
@@ -429,9 +436,10 @@
 
   <div id="toast" class="copied-toast">✓ คัดลอกรายการสั่งซื้อเรียบร้อยแล้ว! นำไปวางส่งในแชทได้เลยค่ะ</div>
 
+  <!-- Header with Custom Background Image & New Logo -->
   <header>
     <div class="header-content">
-      <img src="https://lh3.googleusercontent.com/d/1H6V2o6UERjAcPnsl7jV0AGIXrXbBucJu" 
+      <img src="https://lh3.googleusercontent.com/d/1mcDOldRLsQPHSkYtlhRv7pPi7iN__4UA" 
            alt="น้องเอิน ฝรั่งแช่บ๊วย" 
            class="shop-logo"
            onerror="this.src='https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=150&auto=format&fit=crop&q=80';">
@@ -511,7 +519,6 @@
     let cart = {};
     let currentCategory = 'ทั้งหมด';
 
-    // แปลงข้อความหมวดหมู่ในชีทที่มีวงเล็บ ให้เข้ากับ 5 หมวดหลัก
     function normalizeCategory(raw) {
       const text = String(raw || '').trim();
       if (text.includes('ผลไม้พร้อมส่งวันนี้')) return 'ผลไม้พร้อมส่งวันนี้';
@@ -711,7 +718,7 @@
         row.innerHTML = `
           <div>
             <div style="font-weight:600; font-size:0.95rem;">${item.name}</div>
-            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${count} = ${subtotal} ฿` : 'บริการฟรี'}</div>
+            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${count} =${subtotal} ฿` : 'บริการฟรี'}</div>
           </div>
           <div class="qty-control">
             <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
