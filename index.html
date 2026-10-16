@@ -515,58 +515,38 @@
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbI8SU1pB3OdazQFqY0mgLDxjBoFzkJg5mnl87qq_DONfK5I8kwAqtGHPMf2EQoCXUNA/exec';
-    const CACHE_KEY = 'nong_earn_fruit_cache_v1';
 
     let menuItems = [];
     let cart = {};
     let currentCategory = 'ทั้งหมด';
 
-    async function fetchMenuData() {
+    // ฟังก์ชัน Callback ที่ถูกเรียกเมื่อ Google Apps Script ส่งข้อมูลกลับมาผ่าน JSONP
+    window.onMenuLoaded = function(json) {
       const container = document.getElementById('menuContainer');
-
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        try {
-          const parsed = JSON.parse(cached);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            menuItems = parsed;
-            renderMenu();
-          }
-        } catch (e) {
-          console.warn('Error reading cache:', e);
-        }
+      if (json && Array.isArray(json.data) && json.data.length > 0) {
+        menuItems = json.data;
+        renderMenu();
+      } else {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #64748b;">
+            <p>ไม่พบรายการสินค้าในฐานข้อมูล</p>
+          </div>
+        `;
       }
+    };
 
-      try {
-        const response = await fetch(`${SCRIPT_URL}?t=${Date.now()}`, {
-          method: 'GET',
-          redirect: 'follow'
-        });
-        
-        if (!response.ok) throw new Error('Network error');
-        const json = await response.json();
-        
-        if (json && Array.isArray(json.data) && json.data.length > 0) {
-          menuItems = json.data;
-          localStorage.setItem(CACHE_KEY, JSON.stringify(menuItems));
-          renderMenu();
-        } else if (menuItems.length === 0) {
-          container.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #64748b;">
-              <p>ไม่พบรายการสินค้าในฐานข้อมูล</p>
-            </div>
-          `;
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        if (menuItems.length === 0) {
-          container.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: var(--accent-coral);">
-              <p>ไม่สามารถโหลดรายการผลไม้ได้ กรุณารีเฟรชใหม่อีกครั้ง</p>
-            </div>
-          `;
-        }
-      }
+    // ใช้การสร้างแท็ก script ไดนามิก (JSONP) เพื่อเลี่ยงปัญหา CORS บน GitHub Pages
+    function loadDataJSONP() {
+      const script = document.createElement('script');
+      script.src = `${SCRIPT_URL}?callback=onMenuLoaded&t=${Date.now()}`;
+      script.onerror = function() {
+        document.getElementById('menuContainer').innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--accent-coral);">
+            <p>ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่อีกครั้งนะคะ</p>
+          </div>
+        `;
+      };
+      document.body.appendChild(script);
     }
 
     function renderMenu() {
@@ -653,146 +633,4 @@
       renderMenu();
     }
 
-    function addToCart(id) {
-      cart[id] = 1;
-      updateCartBar();
-      renderMenu();
-    }
-
-    function updateQty(id, delta) {
-      if (!cart[id]) cart[id] = 0;
-      cart[id] += delta;
-      if (cart[id] <= 0) delete cart[id];
-      updateCartBar();
-      renderMenu();
-      if (document.getElementById('checkoutModal').classList.contains('active')) {
-        renderModalCart();
-      }
-    }
-
-    function updateCartBar() {
-      const keys = Object.keys(cart);
-      const bar = document.getElementById('cartBar');
-      if (keys.length === 0) {
-        bar.classList.add('hidden');
-        return;
-      }
-      bar.classList.remove('hidden');
-
-      let totalItems = 0;
-      let totalPrice = 0;
-
-      keys.forEach(id => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (item) {
-          totalItems += count;
-          totalPrice += (item.price * count);
-        }
-      });
-
-      document.getElementById('cartCountText').innerText = `เลือกแล้ว ${totalItems} รายการ`;
-      document.getElementById('cartTotalText').innerText = `รวม ${totalPrice.toLocaleString()} ฿`;
-    }
-
-    function openCheckoutModal() {
-      renderModalCart();
-      document.getElementById('checkoutModal').classList.add('active');
-    }
-
-    function closeCheckoutModal() {
-      document.getElementById('checkoutModal').classList.remove('active');
-    }
-
-    function renderModalCart() {
-      const list = document.getElementById('cartItemsList');
-      list.innerHTML = '';
-      const keys = Object.keys(cart);
-
-      if (keys.length === 0) {
-        list.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">ยังไม่มีสินค้าในตะกร้า</p>';
-        document.getElementById('modalTotalAmount').innerText = '0 ฿';
-        return;
-      }
-
-      let grandTotal = 0;
-      keys.forEach(id => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (!item) return;
-        const subtotal = item.price * count;
-        grandTotal += subtotal;
-
-        const row = document.createElement('div');
-        row.className = 'cart-item-row';
-        row.innerHTML = `
-          <div>
-            <div style="font-weight:600; font-size:0.95rem;">${item.name}</div>
-            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${count} =${subtotal} ฿` : 'บริการฟรี'}</div>
-          </div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-            <span class="qty-count">${count}</span>
-            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-          </div>
-        `;
-        list.appendChild(row);
-      });
-
-      document.getElementById('modalTotalAmount').innerText = `${grandTotal.toLocaleString()} ฿`;
-    }
-
-    function copyOrderDetails() {
-      const keys = Object.keys(cart);
-      if (keys.length === 0) {
-        alert('กรุณาเลือกรายการอย่างน้อย 1 รายการค่ะ');
-        return;
-      }
-
-      let grandTotal = 0;
-      let text = '🍈 สั่งซื้อ: ร้านน้องเอิน ฝรั่งแช่บ๊วย 🍈\n';
-      text += '------------------------------------\n';
-
-      keys.forEach((id, idx) => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (item) {
-          const subtotal = item.price * count;
-          grandTotal += subtotal;
-          text += `${idx + 1}. ${item.name} x ${count} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
-        }
-      });
-
-      text += '------------------------------------\n';
-      text += `💰 ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
-
-      const note = document.getElementById('orderNote').value.trim();
-      if (note) {
-        text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
-      }
-      text += '------------------------------------\n';
-      text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
-
-      navigator.clipboard.writeText(text).then(() => {
-        showToast();
-      }).catch(err => {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        showToast();
-      });
-    }
-
-    function showToast() {
-      const toast = document.getElementById('toast');
-      toast.style.display = 'block';
-      setTimeout(() => { toast.style.display = 'none'; }, 2800);
-    }
-
-    fetchMenuData();
-  </script>
-</body>
-</html>
+    function addToCart
