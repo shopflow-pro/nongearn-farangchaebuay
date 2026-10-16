@@ -414,7 +414,6 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
 
-    /* กล่องข้อความระหว่างโหลด */
     .loading-box {
       text-align: center;
       padding: 60px 20px;
@@ -454,11 +453,11 @@
 
   <div class="container">
     <div class="notice-card">
-      <h3>📢 แจ้งลูกค้าทุกท่าน ... </h3>
+      <h3>📢 แจ้งลูกค้าทุกท่านทราบนะคะ</h3>
       <ul>
-        <li><strong>รอบจัดส่ง:</strong> วันละ 2 รอบ เวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong></li>
-        <li><strong>จุดรับสินค้า:</strong> ไม่สามารถขึ้นส่งบนตึกได้ เนื่องจากจำเป็นต้องรักษาเวลาในการจัดส่งตามคิว รบกวนลูกค้าแจ้งจุดจัดส่งให้ทางร้านได้เลยนะคะ</li>
-        <li><strong>ค่าบริการจัดส่ง:</strong> มีค่าบริการจัดส่งตามระยะทางค่ะ</li>
+        <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong> ค่ะ</li>
+        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนตึกหรืออาคารนะคะ เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่าน รบกวนแจ้งจุดรับสินค้าด้านล่างตึกให้ทางร้านได้เลยค่ะ</li>
+        <li><strong>ค่าบริการจัดส่ง:</strong> คิดค่าบริการจัดส่งตามระยะทางจริงค่ะ</li>
       </ul>
     </div>
   </div>
@@ -477,7 +476,7 @@
   </div>
 
   <main class="container" id="menuContainer">
-    <div class="loading-box">
+    <div class="loading-box" id="loadingIndicator">
       <div class="spinner"></div>
       <p style="font-size: 1.05rem; font-weight: 500; color: var(--text-dark);">กำลังโหลดรายการผลไม้ กรุณารอซักครู่...</p>
     </div>
@@ -515,7 +514,8 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbI8SU1pB3OdazQFqY0mgLDxjBoFzkJg5mnl87qq_DONfK5I8kwAqtGHPMf2EQoCXUNA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbI8SU1pB3OdazQFqY0mgLDxjBoFzkJg5mnl87qq_DONfK5I8kwAqtGHPMf2EQoCXUNA/exec';
+    const CACHE_KEY = 'nong_earn_fruit_cache_v1';
 
     let menuItems = [];
     let cart = {};
@@ -523,6 +523,20 @@
 
     async function fetchMenuData() {
       const container = document.getElementById('menuContainer');
+
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            menuItems = parsed;
+            renderMenu();
+          }
+        } catch (e) {
+          console.warn('Error reading cache:', e);
+        }
+      }
+
       try {
         const response = await fetch(`${SCRIPT_URL}?t=${Date.now()}`, {
           method: 'GET',
@@ -534,8 +548,9 @@
         
         if (json && Array.isArray(json.data) && json.data.length > 0) {
           menuItems = json.data;
+          localStorage.setItem(CACHE_KEY, JSON.stringify(menuItems));
           renderMenu();
-        } else {
+        } else if (menuItems.length === 0) {
           container.innerHTML = `
             <div style="text-align: center; padding: 40px; color: #64748b;">
               <p>ไม่พบรายการสินค้าในฐานข้อมูล</p>
@@ -544,11 +559,13 @@
         }
       } catch (error) {
         console.error('Fetch error:', error);
-        container.innerHTML = `
-          <div style="text-align: center; padding: 40px; color: var(--accent-coral);">
-            <p>ไม่สามารถโหลดรายการผลไม้ได้ กรุณารีเฟรชใหม่อีกครั้ง</p>
-          </div>
-        `;
+        if (menuItems.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: var(--accent-coral);">
+              <p>ไม่สามารถโหลดรายการผลไม้ได้ กรุณารีเฟรชใหม่อีกครั้ง</p>
+            </div>
+          `;
+        }
       }
     }
 
@@ -775,7 +792,6 @@
       setTimeout(() => { toast.style.display = 'none'; }, 2800);
     }
 
-    // เริ่มทำงานโดยการดึงข้อมูลจากชีทเท่านั้น
     fetchMenuData();
   </script>
 </body>
