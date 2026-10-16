@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>น้องเอิน ฝรั่งแช่บ๊วย - เมนูผลไม้พร้อมส่ง</title>
+  <!-- Google Fonts: Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3F7D58;       /* สีเขียวธรรมชาติ */
+      --primary-light: #4e946a;
+      --primary-dark: #2c593e;
+      --bg-light: #EFEFEF;      /* พื้นหลัง */
+      --accent-warm: #EF9651;   /* ส้มอบอุ่น */
+      --accent-coral: #EC5228;  /* ส้มอมแดงสดใส */
+      --text-dark: #222a27;
+      --text-muted: #64748b;
+      --white: #ffffff;
+      --card-radius: 16px;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 18px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(63, 125, 88, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding-bottom: 120px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ================= Responsive Container ================= */
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    @media (min-width: 768px) { .container { padding: 0 24px; } }
+
+    /* ================= Header Section ================= */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      padding: 24px 16px 20px;
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+    .shop-logo {
+      width: 86px;
+      height: 86px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background-color: #fff;
+    }
+    .header-text h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+    .header-text p.subtitle {
+      font-size: 0.95rem;
+      color: #ffe8b5;
+      font-weight: 400;
+    }
+
+    @media (min-width: 640px) {
+      header { padding: 20px 24px; }
+      .header-content {
+        flex-direction: row;
+        justify-content: center;
+        text-align: left;
+        gap: 20px;
+      }
+      .shop-logo {
+        width: 80px;
+        height: 80px;
+      }
+      .header-text h1 { font-size: 1.85rem; }
+      .header-text p.subtitle { font-size: 1.05rem; }
+    }
+
+    /* ================= Notice Card ================= */
+    .notice-card {
+      margin: 18px auto 8px;
+      background: var(--white);
+      border-radius: var(--card-radius);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      border-left: 6px solid var(--accent-coral);
+    }
+    .notice-card h3 {
+      font-size: 0.98rem;
+      color: var(--accent-coral);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .notice-card ul { list-style: none; font-size: 0.88rem; color: #475569; }
+    .notice-card li { margin-bottom: 6px; position: relative; padding-left: 18px; }
+    .notice-card li::before {
+      content: "•";
+      color: var(--accent-warm);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    /* ================= Category Filter Tabs ================= */
+    .tabs-wrapper {
+      position: sticky;
+      top: 130px;
+      background: var(--bg-light);
+      padding: 10px 0;
+      z-index: 40;
+    }
+    @media (min-width: 640px) { .tabs-wrapper { top: 120px; } }
+    .tabs-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .tabs-container::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      background: var(--white);
+      color: var(--text-dark);
+      border: 1px solid #d5dbd7;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(63, 125, 88, 0.3);
+    }
+
+    /* ================= Product Grid (Responsive) ================= */
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 24px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 480px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+    @media (min-width: 768px) {
+      .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
+    @media (min-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: var(--card-radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+    .product-card.unavailable {
+      opacity: 0.6;
+      background: #f7f7f7;
+    }
+    .tag-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .tag-near-end { background: #ffe8db; color: var(--accent-coral); }
+    .tag-out { background: #e2e8f0; color: #64748b; }
+    
+    .product-name {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+    .product-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      flex-grow: 1;
+      line-height: 1.4;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px dashed #f1f1f1;
+    }
+    .product-price {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--accent-coral);
+    }
+    .product-price small { font-size: 0.8rem; font-weight: normal; color: #666; }
+
+    /* Quantity Controls */
+    .add-btn {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .add-btn:hover { background: var(--primary-light); }
+    .add-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .qty-btn {
+      background: var(--bg-light);
+      border: 1px solid #cbd5e1;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .qty-count { font-weight: 600; min-width: 20px; text-align: center; font-size: 0.95rem; }
+
+    /* ================= Floating Cart Bar ================= */
+    .cart-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 700px;
+      background: var(--primary);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-lg);
+      z-index: 100;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .cart-bar.hidden {
+      transform: translate(-50%, 150%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .cart-summary { display: flex; flex-direction: column; }
+    .cart-count { font-size: 0.82rem; opacity: 0.92; }
+    .cart-total { font-size: 1.25rem; font-weight: 700; color: #ffe6aa; }
+    .view-cart-btn {
+      background: var(--accent-coral);
+      color: var(--white);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(236, 82, 40, 0.4);
+      font-family: inherit;
+    }
+
+    /* ================= Checkout Bottom Sheet Modal ================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 150;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-sheet {
+      background: var(--white);
+      width: 100%;
+      max-width: 620px;
+      max-height: 85vh;
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px 30px;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+    }
+    @media (min-width: 640px) {
+      .modal-overlay { align-items: center; }
+      .modal-sheet {
+        border-radius: 24px;
+        transform: translateY(20px);
+        max-height: 80vh;
+      }
+      .modal-overlay.active .modal-sheet { transform: translateY(0); }
+    }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .sheet-header h2 { font-size: 1.25rem; color: var(--primary); }
+    .close-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #888; }
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .note-input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d5dbd7;
+      border-radius: 10px;
+      margin: 12px 0 16px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+    .copy-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-warm), var(--accent-coral));
+      color: var(--white);
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(236, 82, 40, 0.35);
+      font-family: inherit;
+    }
+
+    /* Toast Notification */
+    .copied-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(34, 42, 39, 0.95);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      z-index: 200;
+      display: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Message -->
+  <div id="toast" class="copied-toast">✓ คัดลอกรายการสั่งซื้อเรียบร้อยแล้ว! นำไปวางส่งในแชทได้เลยค่ะ</div>
+
+  <!-- Header Section -->
+  <header>
+    <div class="header-content">
+      <img src="https://lh3.googleusercontent.com/d/1H6V2o6UERjAcPnsl7jV0AGIXrXbBucJu" 
+           alt="น้องเอิน ฝรั่งแช่บ๊วย" 
+           class="shop-logo"
+           onerror="this.src='https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=150&auto=format&fit=crop&q=80';">
+      <div class="header-text">
+        <h1>น้องเอิน ฝรั่งแช่บ๊วย</h1>
+        <p class="subtitle">เจ้าเก่าหน้าแฟรี่ฯ ขอนแก่น พ.ศ. 2540</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notice Section -->
+  <div class="container">
+    <div class="notice-card">
+      <h3>📢 ข้อมูลสำคัญที่ลูกค้าควรรู้</h3>
+      <ul>
+        <li><strong>รอบจัดส่ง:</strong> วันละ 2 รอบ เวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong></li>
+        <li><strong>จุดรับสินค้า:</strong> ไม่สามารถขึ้นส่งบนตึกได้ เนื่องจากจำเป็นต้องรักษาเวลาในการจัดส่งตามคิว รบกวนลูกค้าแจ้งจุดจัดส่งให้ทางร้านได้เลยนะคะ</li>
+        <li><strong>ค่าบริการจัดส่ง:</strong> มีค่าบริการจัดส่งตามระยะทางค่ะ</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Category Filter Tabs -->
+  <div class="tabs-wrapper">
+    <div class="container">
+      <div class="tabs-container" id="categoryTabs">
+        <button class="tab-btn active" onclick="filterCategory('ทั้งหมด')">ทั้งหมด</button>
+        <button class="tab-btn" onclick="filterCategory('ผลไม้พร้อมส่งวันนี้')">ผลไม้พร้อมส่งวันนี้</button>
+        <button class="tab-btn" onclick="filterCategory('ใกล้หมดฤดูกาล')">ใกล้หมดฤดูกาล</button>
+        <button class="tab-btn" onclick="filterCategory('หมดชั่วคราว')">หมดชั่วคราว</button>
+        <button class="tab-btn" onclick="filterCategory('หมดฤดูกาลแล้ว')">หมดฤดูกาลแล้ว</button>
+        <button class="tab-btn" onclick="filterCategory('บริการการ์ด ริบบิ้น และปิ่นโตผลไม้')">บริการการ์ด/ริบบิ้น/ปิ่นโต</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Products Main Section -->
+  <main class="container" id="menuContainer">
+    <div style="text-align: center; padding: 40px; color: #64748b;">
+      <p>กำลังอัปเดตรายการสินค้าสดจากร้าน...</p>
+    </div>
+  </main>
+
+  <!-- Floating Cart Bar -->
+  <div class="cart-bar hidden" id="cartBar">
+    <div class="cart-summary">
+      <span class="cart-count" id="cartCountText">เลือกแล้ว 0 รายการ</span>
+      <span class="cart-total" id="cartTotalText">รวม 0 ฿</span>
+    </div>
+    <button class="view-cart-btn" onclick="openCheckoutModal()">ดูตะกร้าสั่งซื้อ 🛒</button>
+  </div>
+
+  <!-- Modal Checkout Bottom Sheet -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-sheet">
+      <div class="sheet-header">
+        <h2>สรุปรายการสั่งซื้อ</h2>
+        <button class="close-btn" onclick="closeCheckoutModal()">&times;</button>
+      </div>
+
+      <div id="cartItemsList"></div>
+
+      <div style="margin: 16px 0; font-size: 1.15rem; font-weight: bold; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 12px;">
+        <span>ยอดรวมทั้งหมด:</span>
+        <span style="color: var(--accent-coral);" id="modalTotalAmount">0 ฿</span>
+      </div>
+
+      <label style="font-size: 0.85rem; font-weight: 600; color: #475569;">ระบุรอบจัดส่ง / จุดรับสินค้า / ข้อความการ์ดเพิ่มเติม:</label>
+      <textarea id="orderNote" class="note-input" rows="3" placeholder="ตัวอย่าง: รอบ 11.00 น. / รับที่ป้อม รปภ. / ข้อความเขียนการ์ด..."></textarea>
+
+      <button class="copy-btn" onclick="copyOrderDetails()">
+        📋 กดคัดลอกรายการสั่งซื้อ (เพื่อส่งในแชท)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // URL Web App จาก Google Apps Script ที่เชื่อมต่อกับ Sheet
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbI8SU1pB3OdazQFqY0mgLDxjBoFzkJg5mnl87qq_DONfK5I8kwAqtGHPMf2EQoCXUNA/exec';
+
+    // รายการสำรอง (Fallback) ในกรณีอินเทอร์เน็ตของลูกค้ามีปัญหา
+    let defaultBackupItems = [
+      { id: 1, category: "ผลไม้พร้อมส่งวันนี้", name: "ฝรั่งแช่บ๊วยสูตรน้องเอิน", price: 55, note: "สูตรน้องเอิน กรอบ อร่อย", status: "พร้อมส่ง" },
+      { id: 2, category: "ผลไม้พร้อมส่งวันนี้", name: "ส้มไต้หวัน", price: 59, note: "ส้มไต้หวัน รสชาติหวานฉ่ำ", status: "พร้อมส่ง" },
+      { id: 3, category: "ผลไม้พร้อมส่งวันนี้", name: "ส้มออสเตรเลีย ฮันนี่เมอร์คอต", price: 69, note: "หวานเข้มข้น มีกลิ่นหอมเฉพาะตัว", status: "พร้อมส่ง" },
+      { id: 4, category: "ผลไม้พร้อมส่งวันนี้", name: "ส้มเช้งดำเนิน", price: 65, note: "ส้มเช้งดำเนิน หวานธรรมชาติ ชื่นใจ", status: "พร้อมส่ง" },
+      { id: 5, category: "ผลไม้พร้อมส่งวันนี้", name: "มะม่วงน้ำปลาหวาน (แบบเครื่องจิ้ม)", price: 69, note: "มะม่วงเปรี้ยวกำลังดี เสิร์ฟคู่น้ำปลาหวานเข้มข้น", status: "พร้อมส่ง" },
+      { id: 6, category: "ผลไม้พร้อมส่งวันนี้", name: "มะม่วงน้ำปลาหวานยำปลากรอบ", price: 79, note: "ยำปลากรอบคลุกเคล้าน้ำปลาหวานรสเด็ด", status: "พร้อมส่ง" },
+      { id: 7, category: "ผลไม้พร้อมส่งวันนี้", name: "กระท้อนทรงเครื่องโบราณ", price: 89, note: "กระท้อนนุ่มฟู เครื่องแน่นทรงเครื่องโบราณ", status: "พร้อมส่ง" },
+      { id: 8, category: "ผลไม้พร้อมส่งวันนี้", name: "มะกอกน้ำปลาหวาน (แบบเครื่องจิ้ม)", price: 69, note: "มะกอกกรอบ เสิร์ฟคู่น้ำปลาหวานรสเด็ด", status: "พร้อมส่ง" },
+      { id: 9, category: "ผลไม้พร้อมส่งวันนี้", name: "มะกอกยำน้ำปลาหวานทรงเครื่อง", price: 79, note: "มะกอกยำน้ำปลาหวานเครื่องแน่น", status: "พร้อมส่ง" },
+      { id: 10, category: "ผลไม้พร้อมส่งวันนี้", name: "ยำรวมมะกอกมะม่วง ปลากรอบ", price: 89, note: "ยำรวมความแซ่บ มะกอก+มะม่วง โรยปลากรอบ", status: "พร้อมส่ง" },
+      { id: 11, category: "ผลไม้พร้อมส่งวันนี้", name: "พลับเกาหลี พร้อมทาน", price: 39, note: "หวานกรอบ หั่นชิ้นพร้อมทาน", status: "พร้อมส่ง" },
+      { id: 12, category: "ผลไม้พร้อมส่งวันนี้", name: "พลับเกาหลี แกะดอกไม้พร้อมทาน", price: 69, note: "แกะสลักทรงดอกไม้สวยงาม เหมาะเป็นของฝาก", status: "พร้อมส่ง" },
+      { id: 13, category: "ผลไม้พร้อมส่งวันนี้", name: "แอปเปิ้ลเอนวี่ แอปเปิ้ลพรีเมี่ยม หอมกรอบ", price: 89, note: "เอนวี่แท้ กรอบแน่น หวานหอม", status: "พร้อมส่ง" },
+      { id: 14, category: "ผลไม้พร้อมส่งวันนี้", name: "แอปเปิ้ล พิงก์เลดี้ หอมฟุ้ง หวานอมเปรี้ยว", price: 59, note: "กลิ่นหอมฟุ้ง รสหวานซ่อนเปรี้ยวสดชื่น", status: "พร้อมส่ง" },
+      { id: 15, category: "ผลไม้พร้อมส่งวันนี้", name: "เมล่อน สายพันธุ์ญี่ปุ่น สีส้ม", price: 89, note: "เนื้อส้ม หวานฉ่ำ ละมุนลิ้น", status: "พร้อมส่ง" },
+      { id: 16, category: "ผลไม้พร้อมส่งวันนี้", name: "เมล่อน สายพันธุ์ญี่ปุ่น สีเขียว", price: 89, note: "เนื้อเขียว หวานหอม ชื่นใจ", status: "พร้อมส่ง" },
+      { id: 17, category: "ผลไม้พร้อมส่งวันนี้", name: "องุ่น ไชน์มัสคัท (ล้างด้วยน้ำยาล้างผลไม้)", price: 99, note: "ล้างสะอาดด้วยน้ำยาล้างผลไม้อย่างดี หวานกรอบ", status: "พร้อมส่ง" },
+      { id: 18, category: "ผลไม้พร้อมส่งวันนี้", name: "มะละกอฮอลแลนด์ พร้อมทาน", price: 59, note: "สุกกำลังดี เนื้อแน่น หวานธรรมชาติ", status: "พร้อมส่ง" },
+      { id: 19, category: "ผลไม้พร้อมส่งวันนี้", name: "สับปะรดภูแล", price: 59, note: "กรอบ หวาน ไม่กัดลิ้น", status: "พร้อมส่ง" },
+      { id: 20, category: "ผลไม้พร้อมส่งวันนี้", name: "แก้วมังกร สีขาว / สีแดง", price: 49, note: "สด ฉ่ำน้ำ (ระบุสีที่ต้องการในหมายเหตุได้)", status: "พร้อมส่ง" },
+      { id: 21, category: "ผลไม้พร้อมส่งวันนี้", name: "แก้วมังกรสองสี", price: 59, note: "ขาวผสมแดง สวยงามน่าทาน", status: "พร้อมส่ง" },
+      { id: 22, category: "ผลไม้พร้อมส่งวันนี้", name: "กีวี่ Zespri นิวซีแลนด์ เปรี้ยวหวานฉ่ำ ไม่กัดลิ้น", price: 99, note: "Zespri นิวซีแลนด์แท้ สดชื่น อุดมด้วยวิตามินซี", status: "พร้อมส่ง" },
+      { id: 23, category: "ผลไม้พร้อมส่งวันนี้", name: "แตงโมบอล (สีแดง / สีแดง+เหลือง)", price: 59, note: "ตักทรงกลมบอลพอดีคำ ทานง่าย", status: "พร้อมส่ง" },
+      { id: 24, category: "ผลไม้พร้อมส่งวันนี้", name: "แตงโมบอล (สีเหลืองล้วน)", price: 69, note: "แตงโมสีเหลืองตักทรงกลม หวานฉ่ำ", status: "พร้อมส่ง" },
+      { id: 25, category: "ผลไม้พร้อมส่งวันนี้", name: "แตงโมดอกไม้ / หัวใจ (สีแดง+เหลือง)", price: 59, note: "แกะสลักทรงดอกไม้และหัวใจ น่ารักสดใส", status: "พร้อมส่ง" },
+      { id: 26, category: "ผลไม้พร้อมส่งวันนี้", name: "แตงโมดอกไม้ / หัวใจ (สีเหลือล้วน)", price: 69, note: "แกะสลักทรงดอกไม้และหัวใจ สีเหลืองล้วน", status: "พร้อมส่ง" },
+      { id: 27, category: "ผลไม้พร้อมส่งวันนี้", name: "สาลี่ทอง หวานหอม ฉ่ำน้ำ", price: 39, note: "เนื้อกรอบ ฉ่ำน้ำ คลายร้อนได้ดี", status: "พร้อมส่ง" },
+      { id: 28, category: "ผลไม้พร้อมส่งวันนี้", name: "แคนตาลูปซันเลดี้ เนื้อแน่น หวานกรอบ", price: 59, note: "เนื้อแน่น หวานกรอบ หอมละมุน", status: "พร้อมส่ง" },
+      { id: 29, category: "บริการการ์ด ริบบิ้น และปิ่นโตผลไม้", name: "บริการกล่องปิ่นโต+ริบบิ้น+การ์ด", price: 50, note: "กล่องเล็ก ผลไม้ 3-4 อย่าง / กล่องใหญ่ ผลไม้ 6 อย่าง", status: "พร้อมบริการ" },
+      { id: 30, category: "บริการการ์ด ริบบิ้น และปิ่นโตผลไม้", name: "บริการริบบิ้น+การ์ดแข็งอย่างดี", price: 25, note: "ขออนุญาตปรับค่าบริการเนื่องจากริบบิ้นและการ์ดที่ร้านเลือกใช้มีการปรับราคาขึ้น", status: "พร้อมบริการ" },
+      { id: 31, category: "บริการการ์ด ริบบิ้น และปิ่นโตผลไม้", name: "บริการเขียนโน้ต (ฟรี)", price: 0, note: "ลูกค้าสามารถระบุข้อความอวยพรหรือข้อความที่ต้องการได้เลยค่ะ", status: "พร้อมบริการ" },
+      { id: 32, category: "บริการการ์ด ริบบิ้น และปิ่นโตผลไม้", name: "บริการจัดเบรคผลไม้ สั่งสินค้าจำนวนมาก", price: 0, note: "สั่งสินค้าจำนวนมาก รบกวนติดต่อล่วงหน้า 1-2 วัน เพื่อเช็คสต็อคผลไม้ตามต้องการ", status: "พร้อมบริการ" }
+    ];
+
+    let menuItems = [...defaultBackupItems];
+    let cart = {};
+    let currentCategory = 'ทั้งหมด';
+
+    // ดึงข้อมูลสดจาก Google Apps Script
+    async function fetchMenuData() {
+      try {
+        const response = await fetch(`${SCRIPT_URL}?action=getItems`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const json = await response.json();
+        if (json && json.data && json.data.length > 0) {
+          menuItems = json.data;
+          renderMenu();
+        }
+      } catch (error) {
+        console.warn('โหลดข้อมูลสดไม่สำเร็จ ใช้ข้อมูลสำรองในเครื่องแทน:', error);
+        renderMenu();
+      }
+    }
+
+    function renderMenu() {
+      const container = document.getElementById('menuContainer');
+      container.innerHTML = '';
+
+      const categories = [
+        'ผลไม้พร้อมส่งวันนี้',
+        'ใกล้หมดฤดูกาล',
+        'หมดชั่วคราว',
+        'หมดฤดูกาลแล้ว',
+        'บริการการ์ด ริบบิ้น และปิ่นโตผลไม้'
+      ];
+
+      let hasAnyProduct = false;
+
+      categories.forEach(cat => {
+        if (currentCategory !== 'ทั้งหมด' && currentCategory !== cat) return;
+
+        const filtered = menuItems.filter(item => item.category === cat);
+        if (filtered.length === 0) return;
+
+        hasAnyProduct = true;
+        const section = document.createElement('section');
+        section.innerHTML = `<h2 class="section-title"><span>🏷️</span> ${cat} (${filtered.length})</h2>`;
+
+        const grid = document.createElement('div');
+        grid.className = 'product-grid';
+
+        filtered.forEach(item => {
+          const isAvailable = (cat !== 'หมดชั่วคราว' && cat !== 'หมดฤดูกาลแล้ว');
+          const qty = cart[item.id] || 0;
+
+          const card = document.createElement('div');
+          card.className = `product-card ${!isAvailable ? 'unavailable' : ''}`;
+
+          let badgeHtml = '';
+          if (cat === 'ใกล้หมดฤดูกาล') badgeHtml = `<span class="tag-badge tag-near-end">ใกล้หมดฤดูกาล</span>`;
+          if (cat === 'หมดชั่วคราว') badgeHtml = `<span class="tag-badge tag-out">หมดชั่วคราว</span>`;
+          if (cat === 'หมดฤดูกาลแล้ว') badgeHtml = `<span class="tag-badge tag-out">หมดฤดูกาลแล้ว</span>`;
+
+          card.innerHTML = `
+            <div>
+              ${badgeHtml}
+              <div class="product-name">${item.name}</div>
+              <div class="product-note">${item.note || ''}</div>
+            </div>
+            <div class="product-footer">
+              <div class="product-price">
+                ${item.price > 0 ? `${item.price} <small>฿</small>` : '<small style="color:var(--primary); font-weight:600;">ฟรี / สอบถาม</small>'}
+              </div>
+              <div>
+                ${!isAvailable
+                  ? `<button class="add-btn" disabled>สินค้าหมด</button>`
+                  : (qty === 0
+                      ? `<button class="add-btn" onclick="addToCart(${item.id})">+ สั่งซื้อ</button>`
+                      : `<div class="qty-control">
+                          <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                          <span class="qty-count">${qty}</span>
+                          <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                        </div>`
+                    )
+                }
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+
+      if (!hasAnyProduct) {
+        container.innerHTML = `<div style="text-align: center; padding: 40px; color: #888;">ไม่มีรายการสินค้าในหมวดหมู่นี้</div>`;
+      }
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(cat) || (cat === 'ทั้งหมด' && btn.innerText === 'ทั้งหมด'));
+      });
+      renderMenu();
+    }
+
+    function addToCart(id) {
+      cart[id] = 1;
+      updateCartBar();
+      renderMenu();
+    }
+
+    function updateQty(id, delta) {
+      if (!cart[id]) cart[id] = 0;
+      cart[id] += delta;
+      if (cart[id] <= 0) delete cart[id];
+      updateCartBar();
+      renderMenu();
+      if (document.getElementById('checkoutModal').classList.contains('active')) {
+        renderModalCart();
+      }
+    }
+
+    function updateCartBar() {
+      const keys = Object.keys(cart);
+      const bar = document.getElementById('cartBar');
+      if (keys.length === 0) {
+        bar.classList.add('hidden');
+        return;
+      }
+      bar.classList.remove('hidden');
+
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      keys.forEach(id => {
+        const count = cart[id];
+        const item = menuItems.find(m => m.id == id);
+        if (item) {
+          totalItems += count;
+          totalPrice += (item.price * count);
+        }
+      });
+
+      document.getElementById('cartCountText').innerText = `เลือกแล้ว ${totalItems} รายการ`;
+      document.getElementById('cartTotalText').innerText = `รวม ${totalPrice.toLocaleString()} ฿`;
+    }
+
+    function openCheckoutModal() {
+      renderModalCart();
+      document.getElementById('checkoutModal').classList.add('active');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.remove('active');
+    }
+
+    function renderModalCart() {
+      const list = document.getElementById('cartItemsList');
+      list.innerHTML = '';
+      const keys = Object.keys(cart);
+
+      if (keys.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">ยังไม่มีสินค้าในตะกร้า</p>';
+        document.getElementById('modalTotalAmount').innerText = '0 ฿';
+        return;
+      }
+
+      let grandTotal = 0;
+      keys.forEach(id => {
+        const count = cart[id];
+        const item = menuItems.find(m => m.id == id);
+        if (!item) return;
+        const subtotal = item.price * count;
+        grandTotal += subtotal;
+
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        row.innerHTML = `
+          <div>
+            <div style="font-weight:600; font-size:0.95rem;">${item.name}</div>
+            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${count} =${subtotal} ฿` : 'บริการฟรี'}</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+            <span class="qty-count">${count}</span>
+            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
+
+      document.getElementById('modalTotalAmount').innerText = `${grandTotal.toLocaleString()} ฿`;
+    }
+
+    function copyOrderDetails() {
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('กรุณาเลือกรายการอย่างน้อย 1 รายการค่ะ');
+        return;
+      }
+
+      let grandTotal = 0;
+      let text = '🍈 สั่งซื้อ: ร้านน้องเอิน ฝรั่งแช่บ๊วย 🍈\n';
+      text += '------------------------------------\n';
+
+      keys.forEach((id, idx) => {
+        const count = cart[id];
+        const item = menuItems.find(m => m.id == id);
+        if (item) {
+          const subtotal = item.price * count;
+          grandTotal += subtotal;
+          text += `${idx + 1}. ${item.name} x ${count} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
+        }
+      });
+
+      text += '------------------------------------\n';
+      text += `💰 ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
+
+      const note = document.getElementById('orderNote').value.trim();
+      if (note) {
+        text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
+      }
+      text += '------------------------------------\n';
+      text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast();
+      }).catch(err => {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast();
+      });
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2800);
+    }
+
+    // เริ่มต้นทำงานทันทีที่เปิดหน้าเว็บ
+    renderMenu();
+    fetchMenuData();
+  </script>
+</body>
+</html>
