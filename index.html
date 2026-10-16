@@ -740,8 +740,8 @@
       }
 
       let grandTotal = 0;
-      let text = '🍈 สั่งซื้อ: ร้านน้องเอิน ฝรั่งแช่บ๊วย 🍈\n';
-      text += '------------------------------------\n';
+      let text = 'รายการคำสั่งซื้อ\n';
+      text += '----------------------\n';
 
       keys.forEach((id, idx) => {
         const count = cart[id];
@@ -753,14 +753,14 @@
         }
       });
 
-      text += '------------------------------------\n';
-      text += `💰 ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
+      text += '----------------------\n';
+      text += ` ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
 
       const note = document.getElementById('orderNote').value.trim();
       if (note) {
-        text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
+        text += ` รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
       }
-      text += '------------------------------------\n';
+      text += '----------------------\n';
       text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
 
       navigator.clipboard.writeText(text).then(() => {
