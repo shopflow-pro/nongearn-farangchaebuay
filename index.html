@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>น้องเอิน ฝรั่งแช่บ๊วย - เมนูผลไม้พร้อมส่ง</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,12 +24,12 @@
       --shadow-lg: 0 10px 25px rgba(63, 125, 88, 0.25);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
       font-family: 'Prompt', sans-serif;
       background-color: var(--bg-light);
       color: var(--text-dark);
-      padding-bottom: 120px;
+      padding-bottom: 140px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
@@ -248,9 +248,9 @@
       background: var(--primary);
       color: var(--white);
       border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-size: 0.85rem;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
@@ -259,41 +259,42 @@
     .add-btn:hover { background: var(--primary-light); }
     .add-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
     
-    .qty-control { display: flex; align-items: center; gap: 6px; }
+    .qty-control { display: flex; align-items: center; gap: 8px; }
     .qty-btn {
       background: var(--bg-light);
       border: 1px solid #cbd5e1;
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       font-family: inherit;
+      touch-action: manipulation;
     }
-    .qty-count { font-weight: 600; min-width: 20px; text-align: center; font-size: 0.95rem; }
+    .qty-count { font-weight: 600; min-width: 22px; text-align: center; font-size: 1rem; }
 
-    /* Cart Bar */
+    /* ================= Cart Bottom Bar ================= */
     .cart-bar {
       position: fixed;
-      bottom: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 32px);
-      max-width: 700px;
+      width: calc(100% - 24px);
+      max-width: 600px;
       background: var(--primary);
       color: var(--white);
-      padding: 12px 20px;
-      border-radius: 18px;
+      padding: 12px 18px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      box-shadow: var(--shadow-lg);
-      z-index: 100;
-      transition: transform 0.3s ease, opacity 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 999;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
     }
     .cart-bar.hidden {
       transform: translate(-50%, 150%);
@@ -307,21 +308,22 @@
       background: var(--accent-coral);
       color: var(--white);
       border: none;
-      padding: 10px 18px;
+      padding: 11px 20px;
       border-radius: 12px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(236, 82, 40, 0.4);
+      box-shadow: 0 3px 10px rgba(236, 82, 40, 0.4);
       font-family: inherit;
+      touch-action: manipulation;
     }
 
-    /* Modal */
+    /* ================= Modal Fixed for Mobile ================= */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.55);
-      z-index: 150;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
       display: flex;
       align-items: flex-end;
       justify-content: center;
@@ -329,18 +331,27 @@
       pointer-events: none;
       transition: opacity 0.25s ease;
     }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
     .modal-sheet {
       background: var(--white);
       width: 100%;
       max-width: 620px;
       max-height: 85vh;
       border-radius: 24px 24px 0 0;
-      padding: 24px 20px 30px;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 16px));
       overflow-y: auto;
       transform: translateY(100%);
       transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+      -webkit-overflow-scrolling: touch;
     }
+    /* แก้ไขจุดสำคัญ: เมื่อ active ให้แผ่นเลื่อนขึ้นมาแสดงบนมือถือ */
+    .modal-overlay.active .modal-sheet {
+      transform: translateY(0);
+    }
+
     @media (min-width: 640px) {
       .modal-overlay { align-items: center; }
       .modal-sheet {
@@ -350,6 +361,7 @@
       }
       .modal-overlay.active .modal-sheet { transform: translateY(0); }
     }
+
     .sheet-header {
       display: flex;
       justify-content: space-between;
@@ -359,13 +371,23 @@
       border-bottom: 1px solid #eef2f6;
     }
     .sheet-header h2 { font-size: 1.25rem; color: var(--primary); }
-    .close-btn { background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #888; }
+    .close-btn { 
+      background: none; 
+      border: none; 
+      font-size: 1.8rem; 
+      cursor: pointer; 
+      color: #888; 
+      padding: 4px 10px;
+      line-height: 1;
+    }
+
     .cart-item-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
+      padding: 12px 0;
       border-bottom: 1px solid #f1f5f9;
+      gap: 10px;
     }
     .note-input {
       width: 100%;
@@ -382,7 +404,7 @@
       background: linear-gradient(135deg, var(--accent-warm), var(--accent-coral));
       color: var(--white);
       border: none;
-      padding: 14px;
+      padding: 15px;
       border-radius: 12px;
       font-size: 1.05rem;
       font-weight: 700;
@@ -393,9 +415,9 @@
       gap: 8px;
       box-shadow: 0 4px 12px rgba(236, 82, 40, 0.35);
       font-family: inherit;
+      touch-action: manipulation;
     }
 
-    /* Option Modal (ป๊อปอัปเลือกสูตรน้ำปลาหวาน) */
     .option-btn {
       width: 100%;
       padding: 14px 16px;
@@ -414,7 +436,7 @@
       align-items: center;
       justify-content: space-between;
     }
-    .option-btn:hover {
+    .option-btn:hover, .option-btn:active {
       border-color: var(--primary);
       background: #f0fdf4;
       color: var(--primary-dark);
@@ -430,7 +452,7 @@
       padding: 12px 24px;
       border-radius: 999px;
       font-size: 0.92rem;
-      z-index: 200;
+      z-index: 2000;
       display: none;
       box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
@@ -466,10 +488,10 @@
 
   <div class="container">
     <div class="notice-card">
-      <h3>📢 แจ้งลูกค้าทุกท่าน...</h3>
+      <h3>📢 แจ้งลูกค้าทุกท่านค่ะ </h3>
       <ul>
         <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong> ค่ะ</li>
-        <li><strong>จุดรับสินค้า:</strong> ร้านไม่สามารถจัดส่งบนอาคารได้ค่ะ เนื่องจากต้องรักษาเวลาในการจัดส่งตามคิว รบกวนลูกค้าแจ้งจุดจัดส่งได้เลย และต้องขออภัยในความไม่สะดวกนะคะ</li>
+        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนตึก เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่าน ขออภัยในความไม่สะดวกค่ะ</li>
         <li><strong>ค่าบริการจัดส่ง:</strong> คิดค่าบริการจัดส่งตามระยะทางจริงค่ะ</li>
       </ul>
     </div>
@@ -558,7 +580,7 @@
     let menuItems = [];
     let cart = {}; // cartKey: { id, name, price, option, qty }
     let currentCategory = 'ทั้งหมด';
-    let pendingItemId = null; // เก็บ id สินค้าที่กำลังรอเลือกสูตรน้ำปลาหวาน
+    let pendingItemId = null;
 
     function normalizeCategory(raw) {
       const text = String(raw || '').trim();
@@ -630,7 +652,6 @@
         filtered.forEach(item => {
           const isAvailable = (cat !== 'หมดชั่วคราว' && cat !== 'หมดฤดูกาลแล้ว');
           
-          // ตรวจสอบว่าในตะกร้ามีสินค้ารหัสนี้อยู่กี่ชิ้น (รวมทุกสูตร)
           let totalItemQty = 0;
           Object.keys(cart).forEach(k => {
             if (cart[k].id === item.id) totalItemQty += cart[k].qty;
@@ -660,7 +681,6 @@
                 ${!isAvailable
                   ? `<button class="add-btn" disabled>สินค้าหมด</button>`
                   : (hasSweetFishSauce
-                      // สินค้าที่มีน้ำปลาหวาน ให้เป็นปุ่มกดเพื่อเลือกสูตร
                       ? `<button class="add-btn" onclick="handleItemClick(${item.id})">${totalItemQty > 0 ? `+ เพิ่ม (${totalItemQty})` : '+ สั่งซื้อ'}</button>`
                       : (totalItemQty === 0
                           ? `<button class="add-btn" onclick="handleItemClick(${item.id})">+ สั่งซื้อ</button>`
@@ -695,7 +715,6 @@
       renderMenu();
     }
 
-    /* ตรวจสอบก่อนสั่งซื้อว่ามีน้ำปลาหวานในชื่อหรือไม่ */
     function handleItemClick(id) {
       const item = menuItems.find(m => m.id === id);
       if (!item) return;
@@ -705,7 +724,6 @@
         document.getElementById('optionModalTitle').innerText = `${item.name}`;
         document.getElementById('sweetFishSauceModal').classList.add('active');
       } else {
-        // รายการทั่วไป ไม่มีตัวเลือก
         addToCartKey(`${id}`, item.name, item.price, '');
       }
     }
@@ -719,7 +737,7 @@
       if (!pendingItemId) return;
       const item = menuItems.find(m => m.id === pendingItemId);
       if (item) {
-        const cartKey = `${item.id}_${sauceName}`;
+        const cartKey = `${item.id}___${sauceName}`;
         addToCartKey(cartKey, item.name, item.price, sauceName);
       }
       closeOptionModal();
@@ -728,7 +746,7 @@
     function addToCartKey(key, name, price, option) {
       if (!cart[key]) {
         cart[key] = {
-          id: pendingItemId || parseInt(key.split('_')[0], 10),
+          id: pendingItemId || parseInt(key.split('___')[0], 10),
           name: name,
           price: price,
           option: option,
@@ -807,7 +825,7 @@
         const row = document.createElement('div');
         row.className = 'cart-item-row';
         row.innerHTML = `
-          <div>
+          <div style="flex:1;">
             <div style="font-weight:600; font-size:0.95rem;">${displayName}</div>
             <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${item.qty} =${subtotal} ฿` : 'บริการฟรี'}</div>
           </div>
@@ -850,19 +868,32 @@
         text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
       }
       text += '------------------------------------\n';
-      text += '📍 แจ้งจุดส่งสินค้า';
+      text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
 
-      navigator.clipboard.writeText(text).then(() => {
-        showToast();
-      }).catch(err => {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast();
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
         document.execCommand('copy');
-        document.body.removeChild(ta);
         showToast();
-      });
+      } catch (err) {
+        alert('ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาก๊อปปี้ด้วยตัวเองนะคะ');
+      }
+      document.body.removeChild(ta);
     }
 
     function showToast() {
@@ -870,6 +901,14 @@
       toast.style.display = 'block';
       setTimeout(() => { toast.style.display = 'none'; }, 2800);
     }
+
+    // ปิด Modal เมื่อแตะพื้นที่สีดำรอบนอก
+    document.getElementById('checkoutModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCheckoutModal();
+    });
+    document.getElementById('sweetFishSauceModal').addEventListener('click', function(e) {
+      if (e.target === this) closeOptionModal();
+    });
 
     loadDataJSONP();
   </script>
