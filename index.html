@@ -121,13 +121,13 @@
     .notice-card ul { list-style: none; font-size: 0.88rem; color: #475569; }
     .notice-card li { margin-bottom: 6px; position: relative; padding-left: 18px; }
     .notice-card li::before {
-      content: "•";
+      content: "-";
       color: var(--accent-warm);
       position: absolute;
       left: 0;
       font-weight: bold;
-      font-size: 1.2rem;
-      line-height: 1;
+      font-size: 1rem;
+      line-height: 1.4;
     }
 
     .tabs-wrapper {
@@ -478,9 +478,9 @@
 
   <div class="container">
     <div class="notice-card">
-      <h3>📢 แจ้งลูกค้าทุกท่านค่ะ </h3>
+      <h3>📢 แจ้งลูกค้าทุกท่านค่ะ</h3>
       <ul>
-        <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong> ค่ะ</li>
+        <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา 11.00 น. และ 15.00 น. ค่ะ</li>
         <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนอาคาร เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่านค่ะ</li>
         <li><strong>ราคาผลไม้:</strong> เนื่องจากราคาในตลาดมีการเปลี่ยนแปลงทุกวัน ผลไม้อาจมีการปรับปริมาณตามต้นทุน ขอขอบคุณลูกค้าที่เข้าใจค่ะ</li>
       </ul>
@@ -525,15 +525,15 @@
       </div>
       <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 14px;">กรุณาเลือกสูตรน้ำปลาหวานที่ต้องการทานคู่กับรายการนี้ค่ะ:</p>
       
-      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวานกุ้งแห้ง')">
+      <button class="option-btn" onclick="selectSauceOption('สูตรกุ้งแห้ง')">
         <span>🦐 น้ำปลาหวานกุ้งแห้ง</span>
         <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
       </button>
-      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวานปลาป่น')">
+      <button class="option-btn" onclick="selectSauceOption('สูตรปลาป่น')">
         <span>🐟 น้ำปลาหวานปลาป่น</span>
         <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
       </button>
-      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวาน สูตรปลาร้าข้าวคั่ว')">
+      <button class="option-btn" onclick="selectSauceOption('สูตรปลาร้าข้าวคั่ว')">
         <span>🌾 น้ำปลาหวาน สูตรปลาร้าข้าวคั่ว</span>
         <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
       </button>
@@ -585,6 +585,7 @@
       if (json && Array.isArray(json.data) && json.data.length > 0) {
         menuItems = json.data.map(item => ({
           ...item,
+          price: Number(item.price) || 0,
           normalizedCategory: normalizeCategory(item.category)
         }));
         renderMenu();
@@ -642,7 +643,7 @@
           
           let totalItemQty = 0;
           Object.keys(cart).forEach(k => {
-            if (cart[k].id === item.id) totalItemQty += cart[k].qty;
+            if (cart[k].id === item.id) totalItemQty += Number(cart[k].qty) || 0;
           });
 
           const hasSweetFishSauce = item.name.includes('น้ำปลาหวาน');
@@ -673,9 +674,9 @@
                       : (totalItemQty === 0
                           ? `<button class="add-btn" onclick="handleItemClick(${item.id})">+ สั่งซื้อ</button>`
                           : `<div class="qty-control">
-                              <button class="qty-btn" onclick="updateQtyByKey('${item.id}', -1)">-</button>
+                              <button class="qty-btn" onclick="updateQtyByItemId(${item.id}, -1)">-</button>
                               <span class="qty-count">${totalItemQty}</span>
-                              <button class="qty-btn" onclick="updateQtyByKey('${item.id}', 1)">+</button>
+                              <button class="qty-btn" onclick="updateQtyByItemId(${item.id}, 1)">+</button>
                             </div>`
                         )
                     )
@@ -732,16 +733,17 @@
     }
 
     function addToCartKey(key, name, price, option) {
+      const numPrice = Number(price) || 0;
       if (!cart[key]) {
         cart[key] = {
           id: pendingItemId || parseInt(key.split('___')[0], 10),
           name: name,
-          price: price,
+          price: numPrice,
           option: option,
           qty: 1
         };
       } else {
-        cart[key].qty += 1;
+        cart[key].qty = (Number(cart[key].qty) || 0) + 1;
       }
       updateCartBar();
       renderMenu();
@@ -749,7 +751,7 @@
 
     function updateQtyByKey(key, delta) {
       if (cart[key]) {
-        cart[key].qty += delta;
+        cart[key].qty = (Number(cart[key].qty) || 0) + delta;
         if (cart[key].qty <= 0) {
           delete cart[key];
         }
@@ -758,6 +760,16 @@
       renderMenu();
       if (document.getElementById('checkoutModal').classList.contains('active')) {
         renderModalCart();
+      }
+    }
+
+    function updateQtyByItemId(id, delta) {
+      const key = `${id}`;
+      if (cart[key]) {
+        updateQtyByKey(key, delta);
+      } else {
+        const foundKey = Object.keys(cart).find(k => cart[k].id === id);
+        if (foundKey) updateQtyByKey(foundKey, delta);
       }
     }
 
@@ -774,8 +786,10 @@
       let totalPrice = 0;
 
       keys.forEach(k => {
-        totalItems += cart[k].qty;
-        totalPrice += (cart[k].price * cart[k].qty);
+        const q = Number(cart[k].qty) || 0;
+        const p = Number(cart[k].price) || 0;
+        totalItems += q;
+        totalPrice += (p * q);
       });
 
       document.getElementById('cartCountText').innerText = `เลือกแล้ว ${totalItems} รายการ`;
@@ -805,21 +819,28 @@
       let grandTotal = 0;
       keys.forEach(key => {
         const item = cart[key];
-        const subtotal = item.price * item.qty;
+        const p = Number(item.price) || 0;
+        const q = Number(item.qty) || 0;
+        const subtotal = p * q;
         grandTotal += subtotal;
 
-        const displayName = item.option ? `${item.name} (${item.option})` : item.name;
+        let displayName = item.name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}]/gu, '').trim();
+        let subOptionHtml = '';
+        if (item.option) {
+          subOptionHtml = `<div style="font-size:0.8rem; color:#166534; font-weight:500;">- ${item.option}</div>`;
+        }
 
         const row = document.createElement('div');
         row.className = 'cart-item-row';
         row.innerHTML = `
           <div style="flex:1;">
             <div style="font-weight:600; font-size:0.95rem;">${displayName}</div>
-            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${item.qty} =${subtotal} ฿` : 'บริการฟรี'}</div>
+            ${subOptionHtml}
+            <div style="font-size:0.8rem; color:#64748b;">${p > 0 ? `@${p} ฿ × ${q} =${subtotal.toLocaleString()} ฿` : 'บริการฟรี'}</div>
           </div>
           <div class="qty-control">
             <button class="qty-btn" onclick="updateQtyByKey('${key}', -1)">-</button>
-            <span class="qty-count">${item.qty}</span>
+            <span class="qty-count">${q}</span>
             <button class="qty-btn" onclick="updateQtyByKey('${key}', 1)">+</button>
           </div>
         `;
@@ -838,16 +859,28 @@
 
       let grandTotal = 0;
       let text = 'รายการคำสั่งซื้อ\n';
+      text += '____________\n';
 
       keys.forEach((key, idx) => {
         const item = cart[key];
-        const subtotal = item.price * item.qty;
+        const p = Number(item.price) || 0;
+        const q = Number(item.qty) || 0;
+        const subtotal = p * q;
         grandTotal += subtotal;
-        const displayName = item.option ? `${item.name} (${item.option})` : item.name;
-        text += `${idx + 1}. ${displayName} x ${item.qty} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
+
+        // ตัดอีโมจิออกจากชื่อสินค้า
+        const cleanName = item.name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}]/gu, '').trim();
+        text += `${idx + 1}. ${cleanName} ×${q} (${subtotal > 0 ? `${subtotal.toLocaleString()}฿` : 'ฟรี'})\n`;
+
+        // บรรทัดย่อยระบุสูตรน้ำปลาหวาน
+        if (item.option) {
+          text += `       - ${item.option}\n`;
+        }
       });
 
-      text += `\nยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)`;
+      text += '____________\n';
+      text += `ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท\n`;
+      text += '**(ยังไม่รวมค่าจัดส่ง)**';
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
@@ -881,7 +914,6 @@
       setTimeout(() => { toast.style.display = 'none'; }, 2800);
     }
 
-    // ปิด Modal เมื่อแตะพื้นที่สีดำรอบนอก
     document.getElementById('checkoutModal').addEventListener('click', function(e) {
       if (e.target === this) closeCheckoutModal();
     });
