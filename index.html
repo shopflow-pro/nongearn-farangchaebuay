@@ -42,7 +42,7 @@
     }
     @media (min-width: 768px) { .container { padding: 0 24px; } }
 
-    /* ================= Header with Custom Background Image ================= */
+    /* ================= Header ================= */
     header {
       position: sticky;
       top: 0;
@@ -201,13 +201,9 @@
       border: 1px solid rgba(0,0,0,0.03);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .product-card:hover {
-      box-shadow: var(--shadow-md);
-    }
-    .product-card.unavailable {
-      opacity: 0.6;
-      background: #f7f7f7;
-    }
+    .product-card:hover { box-shadow: var(--shadow-md); }
+    .product-card.unavailable { opacity: 0.6; background: #f7f7f7; }
+    
     .tag-badge {
       display: inline-block;
       align-self: flex-start;
@@ -262,11 +258,8 @@
     }
     .add-btn:hover { background: var(--primary-light); }
     .add-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
-    .qty-control {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    
+    .qty-control { display: flex; align-items: center; gap: 6px; }
     .qty-btn {
       background: var(--bg-light);
       border: 1px solid #cbd5e1;
@@ -283,6 +276,7 @@
     }
     .qty-count { font-weight: 600; min-width: 20px; text-align: center; font-size: 0.95rem; }
 
+    /* Cart Bar */
     .cart-bar {
       position: fixed;
       bottom: 16px;
@@ -322,6 +316,7 @@
       font-family: inherit;
     }
 
+    /* Modal */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -400,6 +395,31 @@
       font-family: inherit;
     }
 
+    /* Option Modal (ป๊อปอัปเลือกสูตรน้ำปลาหวาน) */
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .option-btn:hover {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      color: var(--primary-dark);
+    }
+
     .copied-toast {
       position: fixed;
       top: 24px;
@@ -414,15 +434,9 @@
       display: none;
       box-shadow: 0 4px 14px rgba(0,0,0,0.2);
     }
-
-    .loading-box {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-    }
+    .loading-box { text-align: center; padding: 60px 20px; color: var(--text-muted); }
     .spinner {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       border: 4px solid #ddd;
       border-top: 4px solid var(--primary);
       border-radius: 50%;
@@ -436,7 +450,7 @@
 
   <div id="toast" class="copied-toast">✓ คัดลอกรายการสั่งซื้อเรียบร้อยแล้ว! นำไปวางส่งในแชทได้เลยค่ะ</div>
 
-  <!-- Header with Custom Background Image & New Logo -->
+  <!-- Header -->
   <header>
     <div class="header-content">
       <img src="https://lh3.googleusercontent.com/d/1mcDOldRLsQPHSkYtlhRv7pPi7iN__4UA" 
@@ -452,10 +466,10 @@
 
   <div class="container">
     <div class="notice-card">
-      <h3>📢 แจ้งลูกค้าทุกท่านค่ะ ... </h3>
+      <h3>📢 แจ้งลูกค้าทุกท่านทราบนะคะ</h3>
       <ul>
         <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong> ค่ะ</li>
-        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนตึกหรืออาคารนะคะ เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่าน รบกวนแจ้งจุดรับสินค้าให้ทางร้านได้เลยค่ะ</li>
+        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนตึกหรืออาคารนะคะ เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่าน รบกวนแจ้งจุดรับสินค้าด้านล่างตึกให้ทางร้านได้เลยค่ะ</li>
         <li><strong>ค่าบริการจัดส่ง:</strong> คิดค่าบริการจัดส่งตามระยะทางจริงค่ะ</li>
       </ul>
     </div>
@@ -481,6 +495,7 @@
     </div>
   </main>
 
+  <!-- Cart Bottom Bar -->
   <div class="cart-bar hidden" id="cartBar">
     <div class="cart-summary">
       <span class="cart-count" id="cartCountText">เลือกแล้ว 0 รายการ</span>
@@ -489,6 +504,31 @@
     <button class="view-cart-btn" onclick="openCheckoutModal()">ดูตะกร้าสั่งซื้อ 🛒</button>
   </div>
 
+  <!-- Modal: เลือกสูตรน้ำปลาหวาน -->
+  <div class="modal-overlay" id="sweetFishSauceModal">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="sheet-header">
+        <h2 id="optionModalTitle" style="font-size: 1.15rem;">เลือกสูตรน้ำปลาหวาน</h2>
+        <button class="close-btn" onclick="closeOptionModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 14px;">กรุณาเลือกสูตรน้ำปลาหวานที่ต้องการทานคู่กับรายการนี้ค่ะ:</p>
+      
+      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวานกุ้งแห้ง')">
+        <span>🦐 น้ำปลาหวานกุ้งแห้ง</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวานปลาป่น')">
+        <span>🐟 น้ำปลาหวานปลาป่น</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+      <button class="option-btn" onclick="selectSauceOption('น้ำปลาหวาน สูตรปลาร้าข้าวคั่ว')">
+        <span>🌾 น้ำปลาหวาน สูตรปลาร้าข้าวคั่ว</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: สรุปรายการในตะกร้า -->
   <div class="modal-overlay" id="checkoutModal">
     <div class="modal-sheet">
       <div class="sheet-header">
@@ -516,8 +556,9 @@
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyPQUcJ3lqv67b6nOJHgQMrFxowoPbiprYFbFOfH_yPLimMWAoneY_e2vS82yBIWSj/exec';
 
     let menuItems = [];
-    let cart = {};
+    let cart = {}; // cartKey: { id, name, price, option, qty }
     let currentCategory = 'ทั้งหมด';
+    let pendingItemId = null; // เก็บ id สินค้าที่กำลังรอเลือกสูตรน้ำปลาหวาน
 
     function normalizeCategory(raw) {
       const text = String(raw || '').trim();
@@ -588,7 +629,14 @@
 
         filtered.forEach(item => {
           const isAvailable = (cat !== 'หมดชั่วคราว' && cat !== 'หมดฤดูกาลแล้ว');
-          const qty = cart[item.id] || 0;
+          
+          // ตรวจสอบว่าในตะกร้ามีสินค้ารหัสนี้อยู่กี่ชิ้น (รวมทุกสูตร)
+          let totalItemQty = 0;
+          Object.keys(cart).forEach(k => {
+            if (cart[k].id === item.id) totalItemQty += cart[k].qty;
+          });
+
+          const hasSweetFishSauce = item.name.includes('น้ำปลาหวาน');
 
           const card = document.createElement('div');
           card.className = `product-card ${!isAvailable ? 'unavailable' : ''}`;
@@ -611,13 +659,17 @@
               <div>
                 ${!isAvailable
                   ? `<button class="add-btn" disabled>สินค้าหมด</button>`
-                  : (qty === 0
-                      ? `<button class="add-btn" onclick="addToCart(${item.id})">+ สั่งซื้อ</button>`
-                      : `<div class="qty-control">
-                          <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-                          <span class="qty-count">${qty}</span>
-                          <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-                        </div>`
+                  : (hasSweetFishSauce
+                      // สินค้าที่มีน้ำปลาหวาน ให้เป็นปุ่มกดเพื่อเลือกสูตร
+                      ? `<button class="add-btn" onclick="handleItemClick(${item.id})">${totalItemQty > 0 ? `+ เพิ่ม (${totalItemQty})` : '+ สั่งซื้อ'}</button>`
+                      : (totalItemQty === 0
+                          ? `<button class="add-btn" onclick="handleItemClick(${item.id})">+ สั่งซื้อ</button>`
+                          : `<div class="qty-control">
+                              <button class="qty-btn" onclick="updateQtyByKey('${item.id}', -1)">-</button>
+                              <span class="qty-count">${totalItemQty}</span>
+                              <button class="qty-btn" onclick="updateQtyByKey('${item.id}', 1)">+</button>
+                            </div>`
+                        )
                     )
                 }
               </div>
@@ -643,16 +695,59 @@
       renderMenu();
     }
 
-    function addToCart(id) {
-      cart[id] = 1;
+    /* ตรวจสอบก่อนสั่งซื้อว่ามีน้ำปลาหวานในชื่อหรือไม่ */
+    function handleItemClick(id) {
+      const item = menuItems.find(m => m.id === id);
+      if (!item) return;
+
+      if (item.name.includes('น้ำปลาหวาน')) {
+        pendingItemId = id;
+        document.getElementById('optionModalTitle').innerText = `${item.name}`;
+        document.getElementById('sweetFishSauceModal').classList.add('active');
+      } else {
+        // รายการทั่วไป ไม่มีตัวเลือก
+        addToCartKey(`${id}`, item.name, item.price, '');
+      }
+    }
+
+    function closeOptionModal() {
+      document.getElementById('sweetFishSauceModal').classList.remove('active');
+      pendingItemId = null;
+    }
+
+    function selectSauceOption(sauceName) {
+      if (!pendingItemId) return;
+      const item = menuItems.find(m => m.id === pendingItemId);
+      if (item) {
+        const cartKey = `${item.id}_${sauceName}`;
+        addToCartKey(cartKey, item.name, item.price, sauceName);
+      }
+      closeOptionModal();
+    }
+
+    function addToCartKey(key, name, price, option) {
+      if (!cart[key]) {
+        cart[key] = {
+          id: pendingItemId || parseInt(key.split('_')[0], 10),
+          name: name,
+          price: price,
+          option: option,
+          qty: 1
+        };
+      } else {
+        cart[key].qty += 1;
+      }
       updateCartBar();
       renderMenu();
     }
 
-    function updateQty(id, delta) {
-      if (!cart[id]) cart[id] = 0;
-      cart[id] += delta;
-      if (cart[id] <= 0) delete cart[id];
+    function updateQtyByKey(key, delta) {
+      if (cart[key]) {
+        cart[key].qty += delta;
+        if (cart[key].qty <= 0) {
+          delete cart[key];
+        }
+      }
       updateCartBar();
       renderMenu();
       if (document.getElementById('checkoutModal').classList.contains('active')) {
@@ -672,13 +767,9 @@
       let totalItems = 0;
       let totalPrice = 0;
 
-      keys.forEach(id => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (item) {
-          totalItems += count;
-          totalPrice += (item.price * count);
-        }
+      keys.forEach(k => {
+        totalItems += cart[k].qty;
+        totalPrice += (cart[k].price * cart[k].qty);
       });
 
       document.getElementById('cartCountText').innerText = `เลือกแล้ว ${totalItems} รายการ`;
@@ -706,24 +797,24 @@
       }
 
       let grandTotal = 0;
-      keys.forEach(id => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (!item) return;
-        const subtotal = item.price * count;
+      keys.forEach(key => {
+        const item = cart[key];
+        const subtotal = item.price * item.qty;
         grandTotal += subtotal;
+
+        const displayName = item.option ? `${item.name} (${item.option})` : item.name;
 
         const row = document.createElement('div');
         row.className = 'cart-item-row';
         row.innerHTML = `
           <div>
-            <div style="font-weight:600; font-size:0.95rem;">${item.name}</div>
-            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${count} =${subtotal} ฿` : 'บริการฟรี'}</div>
+            <div style="font-weight:600; font-size:0.95rem;">${displayName}</div>
+            <div style="font-size:0.8rem; color:#64748b;">${item.price > 0 ? `@${item.price} ฿ × ${item.qty} =${subtotal} ฿` : 'บริการฟรี'}</div>
           </div>
           <div class="qty-control">
-            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-            <span class="qty-count">${count}</span>
-            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+            <button class="qty-btn" onclick="updateQtyByKey('${key}', -1)">-</button>
+            <span class="qty-count">${item.qty}</span>
+            <button class="qty-btn" onclick="updateQtyByKey('${key}', 1)">+</button>
           </div>
         `;
         list.appendChild(row);
@@ -740,28 +831,26 @@
       }
 
       let grandTotal = 0;
-      let text = 'รายการคำสั่งซื้อ\n';
-      text += '----------------------\n';
+      let text = '🍈 สั่งซื้อ: ร้านน้องเอิน ฝรั่งแช่บ๊วย 🍈\n';
+      text += '------------------------------------\n';
 
-      keys.forEach((id, idx) => {
-        const count = cart[id];
-        const item = menuItems.find(m => m.id == id);
-        if (item) {
-          const subtotal = item.price * count;
-          grandTotal += subtotal;
-          text += `${idx + 1}. ${item.name} x ${count} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
-        }
+      keys.forEach((key, idx) => {
+        const item = cart[key];
+        const subtotal = item.price * item.qty;
+        grandTotal += subtotal;
+        const displayName = item.option ? `${item.name} (${item.option})` : item.name;
+        text += `${idx + 1}. ${displayName} x ${item.qty} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
       });
 
-      text += '----------------------\n';
-      text += ` ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
+      text += '------------------------------------\n';
+      text += `💰 ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
 
       const note = document.getElementById('orderNote').value.trim();
       if (note) {
-        text += ` รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
+        text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
       }
-      text += '----------------------\n';
-      text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
+      text += '------------------------------------\n';
+      text += '📍 แจ้งจุดส่งสินค้า';
 
       navigator.clipboard.writeText(text).then(() => {
         showToast();
