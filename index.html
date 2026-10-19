@@ -347,7 +347,6 @@
       transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
       -webkit-overflow-scrolling: touch;
     }
-    /* แก้ไขจุดสำคัญ: เมื่อ active ให้แผ่นเลื่อนขึ้นมาแสดงบนมือถือ */
     .modal-overlay.active .modal-sheet {
       transform: translateY(0);
     }
@@ -389,16 +388,6 @@
       border-bottom: 1px solid #f1f5f9;
       gap: 10px;
     }
-    .note-input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d5dbd7;
-      border-radius: 10px;
-      margin: 12px 0 16px;
-      font-family: inherit;
-      font-size: 0.9rem;
-      resize: vertical;
-    }
     .copy-btn {
       width: 100%;
       background: linear-gradient(135deg, var(--accent-warm), var(--accent-coral));
@@ -416,6 +405,7 @@
       box-shadow: 0 4px 12px rgba(236, 82, 40, 0.35);
       font-family: inherit;
       touch-action: manipulation;
+      margin-top: 14px;
     }
 
     .option-btn {
@@ -491,8 +481,8 @@
       <h3>📢 แจ้งลูกค้าทุกท่านค่ะ </h3>
       <ul>
         <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา <strong>11.00 น.</strong> และ <strong>15.00 น.</strong> ค่ะ</li>
-        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนตึก เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่าน ขออภัยในความไม่สะดวกค่ะ</li>
-        <li><strong>ค่าบริการจัดส่ง:</strong> คิดค่าบริการจัดส่งตามระยะทางจริงค่ะ</li>
+        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนอาคาร เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่านค่ะ</li>
+        <li><strong>ราคาผลไม้:</strong> เนื่องจากราคาในตลาดมีการเปลี่ยนแปลงทุกวัน ผลไม้อาจมีการปรับปริมาณตามต้นทุน ขอขอบคุณลูกค้าที่เข้าใจค่ะ</li>
       </ul>
     </div>
   </div>
@@ -561,12 +551,10 @@
       <div id="cartItemsList"></div>
 
       <div style="margin: 16px 0; font-size: 1.15rem; font-weight: bold; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 12px;">
-        <span>ยอดรวมทั้งหมด:</span>
+        <span>ยอดรวมสินค้า:</span>
         <span style="color: var(--accent-coral);" id="modalTotalAmount">0 ฿</span>
       </div>
-
-      <label style="font-size: 0.85rem; font-weight: 600; color: #475569;">ระบุรอบจัดส่ง / จุดรับสินค้า / ข้อความการ์ดเพิ่มเติม:</label>
-      <textarea id="orderNote" class="note-input" rows="3" placeholder="ตัวอย่าง: รอบ 11.00 น. / รับที่ป้อม รปภ. / ข้อความเขียนการ์ด..."></textarea>
+      <div style="font-size: 0.82rem; color: #64748b; text-align: right; margin-top: -10px;">*(ยังไม่รวมค่าจัดส่ง)*</div>
 
       <button class="copy-btn" onclick="copyOrderDetails()">
         📋 กดคัดลอกรายการสั่งซื้อ (เพื่อส่งในแชท)
@@ -849,8 +837,7 @@
       }
 
       let grandTotal = 0;
-      let text = '🍈 สั่งซื้อ: ร้านน้องเอิน ฝรั่งแช่บ๊วย 🍈\n';
-      text += '------------------------------------\n';
+      let text = 'รายการคำสั่งซื้อ\n';
 
       keys.forEach((key, idx) => {
         const item = cart[key];
@@ -860,15 +847,7 @@
         text += `${idx + 1}. ${displayName} x ${item.qty} ${subtotal > 0 ? `= ${subtotal} ฿` : ''}\n`;
       });
 
-      text += '------------------------------------\n';
-      text += `💰 ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)\n`;
-
-      const note = document.getElementById('orderNote').value.trim();
-      if (note) {
-        text += `📝 รอบจัดส่ง / จุดรับ / โน้ตเพิ่มเติม: ${note}\n`;
-      }
-      text += '------------------------------------\n';
-      text += '📍 แจ้งจุดรับสินค้าด้านล่างตึกเรียบร้อยค่ะ';
+      text += `\nยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท (ไม่รวมค่าจัดส่ง)`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(() => {
