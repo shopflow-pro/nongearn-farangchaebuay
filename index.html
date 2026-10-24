@@ -1,835 +1,927 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ปอกใส่ปาก - ผลไม้พร้อมทาน</title>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-    <style>
-        :root {
-            --primary: #c0392b;
-            --primary-dark: #962d22;
-            --text-main: #2c3e50;
-            --text-sub: #7f8c8d;
-            --bg-page: #f8f9fa;
-            --card-bg: #ffffff;
-            --border: #e9ecef;
-            --border-focus: #bdc3c7;
-            --gray-btn: #f1f3f5;
-            --gray-btn-hover: #e9ecef;
-            --radius-sm: 6px;
-            --radius-md: 10px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>น้องเอิน ฝรั่งแช่บ๊วย - เมนูผลไม้พร้อมส่ง</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3F7D58;
+      --primary-light: #4e946a;
+      --primary-dark: #2c593e;
+      --bg-light: #EFEFEF;
+      --accent-warm: #EF9651;
+      --accent-coral: #EC5228;
+      --text-dark: #222a27;
+      --text-muted: #64748b;
+      --white: #ffffff;
+      --card-radius: 16px;
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 18px rgba(0,0,0,0.08);
+      --shadow-lg: 0 10px 25px rgba(63, 125, 88, 0.25);
+    }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Sarabun', sans-serif; }
-        body { background-color: var(--bg-page); color: var(--text-main); line-height: 1.5; padding-bottom: 120px; }
-        .container { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      padding-bottom: 140px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        .brand-header { text-align: center; padding: 20px 0 10px; }
-        .brand-header h1 { font-size: 24px; font-weight: 700; color: var(--text-main); letter-spacing: 0.5px; }
-        .brand-header p { font-size: 13px; color: var(--text-sub); margin-top: 4px; }
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    @media (min-width: 768px) { .container { padding: 0 24px; } }
 
-        .market-notice { background: #ffffff; border: 1px solid var(--border); border-left: 3px solid var(--primary); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 12px; color: var(--text-sub); margin: 20px 0 25px; }
+    /* ================= Header ================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      color: var(--white);
+      padding: 26px 16px 22px;
+      box-shadow: var(--shadow-md);
+      background-image: linear-gradient(rgba(26, 54, 38, 0.78), rgba(26, 54, 38, 0.88)), 
+                        url('https://lh3.googleusercontent.com/d/1Ubb3nZWgx0cN-CJ4fwHJK4elirLFH_iD');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+    .shop-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+      background-color: #fff;
+    }
+    .header-text h1 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+      margin-bottom: 4px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .header-text p.subtitle {
+      font-size: 0.95rem;
+      color: #ffe8b5;
+      font-weight: 400;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
 
-        .category-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin: 28px 0 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px; }
-        .category-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    @media (min-width: 640px) {
+      header { padding: 22px 24px; }
+      .header-content {
+        flex-direction: row;
+        justify-content: center;
+        text-align: left;
+        gap: 22px;
+      }
+      .shop-logo { width: 84px; height: 84px; }
+      .header-text h1 { font-size: 1.9rem; }
+      .header-text p.subtitle { font-size: 1.05rem; }
+    }
 
-        .product-card { background: var(--card-bg); border-radius: var(--radius-md); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 10px; display: flex; flex-direction: column; }
-        .product-main { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-        .product-title { font-size: 14px; font-weight: 600; color: var(--text-main); }
-        .product-price { color: var(--primary); font-weight: 700; font-size: 14px; margin-left: 6px; }
-        .product-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
-        .product-stock-tag { font-size: 11px; margin-top: 4px; font-weight: 500; }
-        .stock-available { color: #27ae60; }
-        .stock-out { color: #95a5a6; }
-        .out-of-stock-text { text-decoration: line-through; opacity: 0.5; }
+    .notice-card {
+      margin: 18px auto 8px;
+      background: var(--white);
+      border-radius: var(--card-radius);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      border-left: 6px solid var(--accent-coral);
+    }
+    .notice-card h3 {
+      font-size: 0.98rem;
+      color: var(--accent-coral);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .notice-card ul { list-style: none; font-size: 0.88rem; color: #475569; }
+    .notice-card li { margin-bottom: 6px; position: relative; padding-left: 18px; }
+    .notice-card li::before {
+      content: "-";
+      color: var(--accent-warm);
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
 
-        .qty-controls { display: flex; align-items: center; gap: 6px; }
-        .qty-btn { width: 32px; height: 32px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--gray-btn); color: var(--text-main); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-        .qty-btn:hover { background: var(--gray-btn-hover); }
-        .qty-number { font-size: 14px; font-weight: 600; width: 22px; text-align: center; }
-        .btn-select-init { background: var(--text-main); color: #fff; border: none; border-radius: var(--radius-sm); padding: 7px 16px; font-size: 13px; font-weight: 600; cursor: pointer; }
-        .btn-select-init:hover { background: #1a252f; }
-        .btn-select-init:disabled { background: #e9ecef; color: #adb5bd; cursor: not-allowed; }
+    .tabs-wrapper {
+      position: sticky;
+      top: 130px;
+      background: var(--bg-light);
+      padding: 10px 0;
+      z-index: 40;
+    }
+    @media (min-width: 640px) { .tabs-wrapper { top: 120px; } }
+    .tabs-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .tabs-container::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      background: var(--white);
+      color: var(--text-dark);
+      border: 1px solid #d5dbd7;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 0.86rem;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+      box-shadow: 0 2px 8px rgba(63, 125, 88, 0.3);
+    }
 
-        .sauce-summary-box { background: #fdfdfd; border-radius: var(--radius-sm); padding: 8px 12px; margin-top: 10px; font-size: 12px; border: 1px solid var(--border); }
-        .sauce-item-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
-        .sauce-change-btn { background: none; border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-sub); cursor: pointer; }
-        .sauce-change-btn:hover { border-color: var(--text-main); color: var(--text-main); }
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 24px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 480px) {
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    }
+    @media (min-width: 768px) {
+      .product-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
+    @media (min-width: 1024px) {
+      .product-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    }
 
-        /* การ์ดเมนูดูโอ้ */
-        .duo-banner-card {
-            background: #ffffff;
-            border: 1px solid var(--text-main);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-        }
-        .duo-banner-title { font-size: 15px; font-weight: 700; color: var(--text-main); }
-        .duo-banner-desc { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
-        .duo-banner-price { font-size: 13px; font-weight: 600; color: var(--primary); margin-top: 2px; }
-        .btn-duo-open {
-            background: var(--text-main);
-            color: #ffffff;
-            border: none;
-            border-radius: var(--radius-sm);
-            padding: 9px 18px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .btn-duo-open:hover { background: #1a252f; }
-        .btn-duo-open:disabled { background: #ccc; cursor: not-allowed; }
+    .product-card {
+      background: var(--white);
+      border-radius: var(--card-radius);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .product-card:hover { box-shadow: var(--shadow-md); }
+    .product-card.unavailable { opacity: 0.6; background: #f7f7f7; }
+    
+    .tag-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .tag-near-end { background: #ffe8db; color: var(--accent-coral); }
+    .tag-out { background: #e2e8f0; color: #64748b; }
+    
+    .product-name {
+      font-size: 0.96rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      line-height: 1.35;
+    }
+    .product-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      flex-grow: 1;
+      line-height: 1.4;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      border-top: 1px dashed #f1f1f1;
+    }
+    .product-price {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--accent-coral);
+    }
+    .product-price small { font-size: 0.8rem; font-weight: normal; color: #666; }
 
-        .duo-cart-item {
-            background: #ffffff;
-            border: 1px solid var(--border);
-            border-left: 3px solid var(--text-main);
-            border-radius: var(--radius-sm);
-            padding: 10px 14px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .duo-cart-title { font-size: 13px; font-weight: 600; color: var(--text-main); }
-        .duo-cart-sub { font-size: 12px; color: var(--primary); font-weight: 600; }
-        .btn-duo-delete {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-            border-radius: 4px;
-            padding: 3px 8px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-        .btn-duo-delete:hover { border-color: var(--primary); color: var(--primary); }
+    .add-btn {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .add-btn:hover { background: var(--primary-light); }
+    .add-btn:disabled { background: #cbd5e1; cursor: not-allowed; }
+    
+    .qty-control { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      background: var(--bg-light);
+      border: 1px solid #cbd5e1;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-family: inherit;
+      touch-action: manipulation;
+    }
+    .qty-count { font-weight: 600; min-width: 22px; text-align: center; font-size: 1rem; }
 
-        .duo-fruit-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 14px;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            font-size: 13.5px;
-            font-weight: 500;
-            color: var(--text-main);
-            transition: background 0.15s;
-        }
-        .duo-fruit-row:last-child { border-bottom: none; }
-        .duo-fruit-row:hover { background: var(--gray-btn); }
-        .duo-fruit-row input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+    /* ================= Cart Bottom Bar ================= */
+    .cart-bar {
+      position: fixed;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 600px;
+      background: var(--primary);
+      color: var(--white);
+      padding: 12px 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 999;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+    .cart-bar.hidden {
+      transform: translate(-50%, 150%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .cart-summary { display: flex; flex-direction: column; }
+    .cart-count { font-size: 0.82rem; opacity: 0.92; }
+    .cart-total { font-size: 1.25rem; font-weight: 700; color: #ffe6aa; }
+    .view-cart-btn {
+      background: var(--accent-coral);
+      color: var(--white);
+      border: none;
+      padding: 11px 20px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(236, 82, 40, 0.4);
+      font-family: inherit;
+      touch-action: manipulation;
+    }
 
-        .delivery-section { background: var(--card-bg); border-radius: var(--radius-md); border: 1px solid var(--border); padding: 20px; margin-top: 35px; }
-        .delivery-section h3 { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; }
-        .form-row { margin-bottom: 14px; }
-        .form-row label { display: block; font-size: 13px; font-weight: 600; color: var(--text-main); margin-bottom: 5px; }
-        .form-row label span.req { color: var(--primary); }
-        .form-row input, .form-row textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 14px; background: #fff; color: var(--text-main); }
-        .form-row input:focus, .form-row textarea:focus { outline: none; border-color: var(--text-main); }
+    /* ================= Modal Fixed for Mobile ================= */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-sheet {
+      background: var(--white);
+      width: 100%;
+      max-width: 620px;
+      max-height: 85vh;
+      border-radius: 24px 24px 0 0;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 16px));
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+      -webkit-overflow-scrolling: touch;
+    }
+    .modal-overlay.active .modal-sheet {
+      transform: translateY(0);
+    }
 
-        .store-policy { margin-top: 25px; padding: 15px; font-size: 12px; color: var(--text-sub); line-height: 1.8; text-align: center; }
+    @media (min-width: 640px) {
+      .modal-overlay { align-items: center; }
+      .modal-sheet {
+        border-radius: 24px;
+        transform: translateY(20px);
+        max-height: 80vh;
+      }
+      .modal-overlay.active .modal-sheet { transform: translateY(0); }
+    }
 
-        .floating-cart-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid var(--border); padding: 14px 20px; box-shadow: 0 -4px 12px rgba(0,0,0,0.03); z-index: 99; }
-        .cart-inner { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        .cart-total-info { display: flex; flex-direction: column; }
-        .cart-item-count { font-size: 12px; color: var(--text-sub); }
-        .cart-price-sum { font-size: 18px; font-weight: 700; color: var(--primary); }
-        .btn-confirm-order { background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; }
-        .btn-confirm-order:hover { background: var(--primary-dark); }
-        .btn-confirm-order:disabled { background: #e9ecef; color: #adb5bd; cursor: not-allowed; }
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eef2f6;
+    }
+    .sheet-header h2 { font-size: 1.25rem; color: var(--primary); }
+    .close-btn { 
+      background: none; 
+      border: none; 
+      font-size: 1.8rem; 
+      cursor: pointer; 
+      color: #888; 
+      padding: 4px 10px;
+      line-height: 1;
+    }
 
-        /* Modal น้ำจิ้ม และ ดูโอ้ */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-        .modal-card { background: #ffffff; border-radius: var(--radius-md); width: 100%; max-width: 380px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .modal-title { font-size: 15px; font-weight: 700; color: var(--text-main); text-align: center; }
-        .modal-sub { font-size: 12px; color: var(--text-sub); text-align: center; margin: 4px 0 16px; }
-        .sauce-btn { width: 100%; text-align: left; padding: 10px 14px; margin-bottom: 6px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #fff; font-size: 13px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-main); }
-        .sauce-btn:hover { background: var(--gray-btn); border-color: var(--border-focus); }
-        .btn-close-modal { width: 100%; border: none; background: var(--gray-btn); padding: 9px; border-radius: var(--radius-sm); margin-top: 8px; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-main); }
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+      gap: 10px;
+    }
+    .copy-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-warm), var(--accent-coral));
+      color: var(--white);
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(236, 82, 40, 0.35);
+      font-family: inherit;
+      touch-action: manipulation;
+      margin-top: 14px;
+    }
 
-        .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.92); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; padding: 20px; text-align: center; backdrop-filter: blur(3px); }
-        .spinner { width: 44px; height: 44px; border: 3px solid #e9ecef; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
-        .loading-title { font-size: 16px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
-        .loading-sub { font-size: 13px; color: var(--text-sub); }
-        @keyframes spin { to { transform: rotate(360deg); } }
-    </style>
+    .option-btn {
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #334155;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .option-btn:hover, .option-btn:active {
+      border-color: var(--primary);
+      background: #f0fdf4;
+      color: var(--primary-dark);
+    }
+
+    .copied-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(34, 42, 39, 0.95);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      z-index: 2000;
+      display: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    }
+    .loading-box { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 4px solid #ddd;
+      border-top: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
 
+  <div id="toast" class="copied-toast">✓ คัดลอกรายการสั่งซื้อเรียบร้อยแล้ว! นำไปวางส่งในแชทได้เลยค่ะ</div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <img src="https://lh3.googleusercontent.com/d/1mcDOldRLsQPHSkYtlhRv7pPi7iN__4UA" 
+           alt="น้องเอิน ฝรั่งแช่บ๊วย" 
+           class="shop-logo"
+           onerror="this.src='https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=150&auto=format&fit=crop&q=80';">
+      <div class="header-text">
+        <h1>น้องเอิน ฝรั่งแช่บ๊วย</h1>
+        <p class="subtitle">เจ้าเก่าหน้าแฟรี่ฯ ขอนแก่น พ.ศ. 2540</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="notice-card">
+      <h3>📢 แจ้งลูกค้าทุกท่านค่ะ</h3>
+      <ul>
+        <li><strong>รอบจัดส่ง:</strong> ทางร้านมีบริการจัดส่งวันละ 2 รอบ คือเวลา 11.00 น. และ 15.00 น. ค่ะ</li>
+        <li><strong>จุดรับสินค้า:</strong> ทางร้านต้องขออภัยที่ไม่สะดวกขึ้นส่งบนอาคาร เนื่องจากจำเป็นต้องรักษาเวลาจัดส่งตามคิวให้ลูกค้าทุกท่านค่ะ</li>
+        <li><strong>ราคาผลไม้:</strong> เนื่องจากราคาในตลาดมีการเปลี่ยนแปลงทุกวัน ผลไม้อาจมีการปรับปริมาณตามต้นทุน ขอขอบคุณลูกค้าที่เข้าใจค่ะ</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tabs-wrapper">
     <div class="container">
-        <div class="brand-header">
-            <h1>ปอกใส่ปาก</h1>
-            <p>ผลไม้สดพร้อมทาน คุณภาพมาตรฐานคัดเกรด</p>
-        </div>
+      <div class="tabs-container" id="categoryTabs">
+        <button class="tab-btn active" onclick="filterCategory('ทั้งหมด')">ทั้งหมด</button>
+        <button class="tab-btn" onclick="filterCategory('ผลไม้พร้อมส่งวันนี้')">ผลไม้พร้อมส่งวันนี้</button>
+        <button class="tab-btn" onclick="filterCategory('ใกล้หมดฤดูกาล')">ใกล้หมดฤดูกาล</button>
+        <button class="tab-btn" onclick="filterCategory('หมดชั่วคราว')">หมดชั่วคราว</button>
+        <button class="tab-btn" onclick="filterCategory('หมดฤดูกาลแล้ว')">หมดฤดูกาลแล้ว</button>
+        <button class="tab-btn" onclick="filterCategory('บริการการ์ด ริบบิ้น และปิ่นโตผลไม้')">บริการการ์ด/ริบบิ้น/ปิ่นโต</button>
+      </div>
+    </div>
+  </div>
 
-        <div class="market-notice">
-            ราคาและปริมาณผลไม้อาจมีการปรับเปลี่ยนตามกลไกราคาตลาดในแต่ละวัน
-        </div>
+  <main class="container" id="menuContainer">
+    <div class="loading-box" id="loadingIndicator">
+      <div class="spinner"></div>
+      <p style="font-size: 1.05rem; font-weight: 500; color: var(--text-dark);">กำลังโหลดรายการผลไม้ กรุณารอซักครู่...</p>
+    </div>
+  </main>
 
-        <!-- กล่องเมนูดูโอ้ -->
-        <div class="category-title">เมนูพิเศษแนะนำ</div>
-        <div class="duo-banner-card">
+  <!-- Cart Bottom Bar -->
+  <div class="cart-bar hidden" id="cartBar">
+    <div class="cart-summary">
+      <span class="cart-count" id="cartCountText">เลือกแล้ว 0 รายการ</span>
+      <span class="cart-total" id="cartTotalText">รวม 0 ฿</span>
+    </div>
+    <button class="view-cart-btn" onclick="openCheckoutModal()">ดูตะกร้าสั่งซื้อ 🛒</button>
+  </div>
+
+  <!-- Modal: เลือกสูตรน้ำปลาหวาน -->
+  <div class="modal-overlay" id="sweetFishSauceModal">
+    <div class="modal-sheet" style="max-width: 440px;">
+      <div class="sheet-header">
+        <h2 id="optionModalTitle" style="font-size: 1.15rem;">เลือกสูตรน้ำปลาหวาน</h2>
+        <button class="close-btn" onclick="closeOptionModal()">&times;</button>
+      </div>
+      <p style="font-size: 0.88rem; color: #64748b; margin-bottom: 14px;">กรุณาเลือกสูตรน้ำปลาหวานที่ต้องการทานคู่กับรายการนี้ค่ะ:</p>
+      
+      <button class="option-btn" onclick="selectSauceOption('สูตรกุ้งแห้ง')">
+        <span>🦐 น้ำปลาหวานกุ้งแห้ง</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+      <button class="option-btn" onclick="selectSauceOption('สูตรปลาป่น')">
+        <span>🐟 น้ำปลาหวานปลาป่น</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+      <button class="option-btn" onclick="selectSauceOption('สูตรปลาร้าข้าวคั่ว')">
+        <span>🌾 น้ำปลาหวาน สูตรปลาร้าข้าวคั่ว</span>
+        <span style="color: var(--primary); font-size: 0.85rem;">เลือก &gt;</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal: สรุปรายการในตะกร้า -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-sheet">
+      <div class="sheet-header">
+        <h2>สรุปรายการสั่งซื้อ</h2>
+        <button class="close-btn" onclick="closeCheckoutModal()">&times;</button>
+      </div>
+
+      <div id="cartItemsList"></div>
+
+      <div style="margin: 16px 0; font-size: 1.15rem; font-weight: bold; display: flex; justify-content: space-between; border-top: 1px solid #eee; padding-top: 12px;">
+        <span>ยอดรวมสินค้า:</span>
+        <span style="color: var(--accent-coral);" id="modalTotalAmount">0 ฿</span>
+      </div>
+      <div style="font-size: 0.82rem; color: #64748b; text-align: right; margin-top: -10px;">*(ยังไม่รวมค่าจัดส่ง)*</div>
+
+      <button class="copy-btn" onclick="copyOrderDetails()">
+        📋 กดคัดลอกรายการสั่งซื้อ (เพื่อส่งในแชท)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyPQUcJ3lqv67b6nOJHgQMrFxowoPbiprYFbFOfH_yPLimMWAoneY_e2vS82yBIWSj/exec';
+
+    let menuItems = [];
+    let cart = {}; // cartKey: { id, name, price, option, qty }
+    let currentCategory = 'ทั้งหมด';
+    let pendingItemId = null;
+
+    function normalizeCategory(raw) {
+      const text = String(raw || '').trim();
+      if (text.includes('ผลไม้พร้อมส่งวันนี้')) return 'ผลไม้พร้อมส่งวันนี้';
+      if (text.includes('ใกล้หมดฤดูกาล')) return 'ใกล้หมดฤดูกาล';
+      if (text.includes('หมดชั่วคราว')) return 'หมดชั่วคราว';
+      if (text.includes('หมดฤดูกาลแล้ว')) return 'หมดฤดูกาลแล้ว';
+      if (text.includes('บริการการ์ด') || text.includes('ปิ่นโต') || text.includes('ริบบิ้น')) return 'บริการการ์ด ริบบิ้น และปิ่นโตผลไม้';
+      return text;
+    }
+
+    window.onMenuLoaded = function(json) {
+      const container = document.getElementById('menuContainer');
+      if (json && Array.isArray(json.data) && json.data.length > 0) {
+        menuItems = json.data.map(item => ({
+          ...item,
+          price: Number(item.price) || 0,
+          normalizedCategory: normalizeCategory(item.category)
+        }));
+        renderMenu();
+      } else {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: #64748b;">
+            <p>ไม่พบรายการสินค้าในฐานข้อมูล</p>
+          </div>
+        `;
+      }
+    };
+
+    function loadDataJSONP() {
+      const script = document.createElement('script');
+      script.src = `${SCRIPT_URL}?callback=onMenuLoaded&t=${Date.now()}`;
+      script.onerror = function() {
+        document.getElementById('menuContainer').innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--accent-coral);">
+            <p>ไม่สามารถเชื่อมต่อฐานข้อมูลได้ กรุณาลองใหม่อีกครั้งนะคะ</p>
+          </div>
+        `;
+      };
+      document.body.appendChild(script);
+    }
+
+    function renderMenu() {
+      const container = document.getElementById('menuContainer');
+      container.innerHTML = '';
+
+      const categories = [
+        'ผลไม้พร้อมส่งวันนี้',
+        'ใกล้หมดฤดูกาล',
+        'หมดชั่วคราว',
+        'หมดฤดูกาลแล้ว',
+        'บริการการ์ด ริบบิ้น และปิ่นโตผลไม้'
+      ];
+
+      let hasProduct = false;
+
+      categories.forEach(cat => {
+        if (currentCategory !== 'ทั้งหมด' && currentCategory !== cat) return;
+
+        const filtered = menuItems.filter(item => item.normalizedCategory === cat);
+        if (filtered.length === 0) return;
+
+        hasProduct = true;
+        const section = document.createElement('section');
+        section.innerHTML = `<h2 class="section-title"><span>🏷️</span> ${cat} (${filtered.length})</h2>`;
+
+        const grid = document.createElement('div');
+        grid.className = 'product-grid';
+
+        filtered.forEach(item => {
+          const isAvailable = (cat !== 'หมดชั่วคราว' && cat !== 'หมดฤดูกาลแล้ว');
+          
+          let totalItemQty = 0;
+          Object.keys(cart).forEach(k => {
+            if (cart[k].id === item.id) totalItemQty += Number(cart[k].qty) || 0;
+          });
+
+          const hasSweetFishSauce = item.name.includes('น้ำปลาหวาน');
+
+          const card = document.createElement('div');
+          card.className = `product-card ${!isAvailable ? 'unavailable' : ''}`;
+
+          let badgeHtml = '';
+          if (cat === 'ใกล้หมดฤดูกาล') badgeHtml = `<span class="tag-badge tag-near-end">ใกล้หมดฤดูกาล</span>`;
+          if (cat === 'หมดชั่วคราว') badgeHtml = `<span class="tag-badge tag-out">หมดชั่วคราว</span>`;
+          if (cat === 'หมดฤดูกาลแล้ว') badgeHtml = `<span class="tag-badge tag-out">หมดฤดูกาลแล้ว</span>`;
+
+          card.innerHTML = `
             <div>
-                <div class="duo-banner-title">ผลไม้ดูโอ้ (เลือกได้ 2 อย่าง)</div>
-                <div class="duo-banner-desc">จับคู่ผลไม้ 2 ชนิดในกล่องเดียวตามใจคุณ</div>
-                <div class="duo-banner-price">เริ่มต้น 70 บาท</div>
+              ${badgeHtml}
+              <div class="product-name">${item.name}</div>
+              <div class="product-note">${item.note || ''}</div>
             </div>
-            <button class="btn-duo-open" id="btn-open-duo" onclick="openDuoModal()">+ เลือกจับคู่</button>
-        </div>
-        <div id="duo-cart-container"></div>
-
-        <div id="menu-container">
-            <div style="text-align:center; padding:40px 0; color:#95a5a6; font-size:13px;">กำลังโหลดรายการสินค้า...</div>
-        </div>
-
-        <div class="delivery-section">
-            <h3>ข้อมูลการจัดส่ง</h3>
-            <div class="form-row">
-                <label>ชื่อลูกค้า <span class="req">*</span></label>
-                <input type="text" id="cust-name" name="name" autocomplete="name" placeholder="ระบุชื่อจริง หรือชื่อเรียก">
-            </div>
-            <div class="form-row">
-                <label>เบอร์โทรศัพท์ติดต่อ <span class="req">*</span></label>
-                <input type="tel" id="cust-phone" name="tel" autocomplete="tel" placeholder="เช่น 0812345678">
-            </div>
-            <div class="form-row">
-                <label>สถานที่จัดส่ง <span class="req">*</span></label>
-                <textarea id="cust-address" name="address" autocomplete="street-address" rows="2" placeholder="ระบุบ้านเลขที่, ถนน/ซอย, จุดสังเกต หรือพิกัดแผนที่"></textarea>
-            </div>
-            <div class="form-row">
-                <label>หมายเหตุเพิ่มเติม (ถ้ามี)</label>
-                <input type="text" id="cust-note" placeholder="ข้อความเพิ่มเติมถึงร้านค้า">
-            </div>
-        </div>
-
-        <div class="store-policy">
-            การจัดส่งดำเนินการผ่านไรเดอร์ กรุณาสั่งล่วงหน้าตามรอบจัดส่ง<br>
-            ยอดสั่งซื้อขั้นต่ำ 150 บาท | ยอดสั่งซื้อครบ 200 บาทขึ้นไป จัดส่งฟรีในเขตตัวเมือง (ระยะทางไม่เกิน 7 กม.)
-        </div>
-    </div>
-
-    <!-- Modal เลือกผลไม้ดูโอ้ -->
-    <div class="modal-overlay" id="duo-modal">
-        <div class="modal-card" style="display:flex; flex-direction:column; max-height:85vh;">
-            <div class="modal-title">เลือกผลไม้ดูโอ้ (2 อย่าง)</div>
-            <div class="modal-sub">เลือกผลไม้ที่ต้องการ <span id="duo-count-label" style="font-weight:600; color:var(--primary);">(เลือกแล้ว 0/2 อย่าง)</span></div>
-            
-            <div id="duo-fruit-list" style="overflow-y:auto; flex:1; max-height:260px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:12px;">
-                <div style="text-align:center; padding:20px; font-size:12px; color:var(--text-sub);">กำลังโหลดรายการผลไม้...</div>
-            </div>
-
-            <!-- กล่องเลือกน้ำจิ้มสำหรับดูโอ้ -->
-            <div id="duo-sauce-section" style="display:none; background:#fdfdfd; border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:10px; font-size:12px;">
-                <div style="font-weight:600; color:var(--text-main); margin-bottom:6px;">เลือกน้ำจิ้ม / พริกเกลือ (ฟรี 1 อย่าง):</div>
-                <select id="duo-sauce-select" onchange="updateDuoCalcPrice()" style="width:100%; padding:7px; border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; background:#fff; color:var(--text-main);">
-                    <option value="พริกเกลือนัวร์ (ฟรี)">พริกเกลือนัวร์ (ฟรี)</option>
-                    <option value="พริกเกลือกะปิแห้ง (ฟรี)">พริกเกลือกะปิแห้ง (ฟรี)</option>
-                    <option value="พริกเกลือลาวแซ่บ (ฟรี)">พริกเกลือลาวแซ่บ (ฟรี)</option>
-                    <option value="น้ำจิ้มบ๊วยเค็ม (ฟรี)">น้ำจิ้มบ๊วยเค็ม (ฟรี)</option>
-                    <option value="กะปิปลาร้า (+20 บาท)">กะปิปลาร้า (+20 บาท)</option>
-                    <option value="กะปิหวาน (+20 บาท)">กะปิหวาน (+20 บาท)</option>
-                    <option value="ไม่รับน้ำจิ้ม">ไม่รับน้ำจิ้ม</option>
-                </select>
-            </div>
-
-            <!-- กล่องเพิ่มท็อปปิ้งสำหรับอะโวคาโด้ -->
-            <div id="duo-addon-section" style="display:none; background:#fdfdfd; border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 12px; margin-bottom:12px; font-size:12px;">
-                <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-                    <input type="checkbox" id="duo-addon-check" onchange="updateDuoCalcPrice()">
-                    <span>เพิ่มน้ำผึ้งและมูสลี่ (สำหรับอะโวคาโด้) <b style="color:var(--primary);">+15 บาท</b></span>
-                </label>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-top:1px solid var(--border);">
-                <span style="font-size:13px; color:var(--text-sub);">ราคากล่องดูโอ้:</span>
-                <span id="duo-price-preview" style="font-size:16px; font-weight:700; color:var(--primary);">- บาท</span>
-            </div>
-
-            <div style="display:flex; gap:8px; margin-top:8px;">
-                <button class="btn-close-modal" style="flex:1;" onclick="closeDuoModal()">ยกเลิก</button>
-                <button class="btn-confirm-order" id="btn-confirm-duo" style="flex:2; padding:9px;" onclick="addDuoBoxToCart()" disabled>เพิ่มลงตะกร้า</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal เลือกน้ำจิ้มสำหรับผลไม้เดี่ยว -->
-    <div class="modal-overlay" id="sauce-modal">
-        <div class="modal-card">
-            <div class="modal-title" id="modal-product-name">รายการสินค้า</div>
-            <div class="modal-sub">เลือกตัวเลือกน้ำจิ้มสำหรับ <span id="modal-box-index" style="font-weight:600; color:var(--text-main);">กล่องที่ 1</span></div>
-            
-            <button class="sauce-btn" onclick="selectSauceOption('ไม่รับน้ำจิ้ม')">ไม่รับน้ำจิ้ม</button>
-            <button class="sauce-btn" onclick="selectSauceOption('พริกเกลือนัวร์ (ฟรี)')">พริกเกลือนัวร์ <span>ฟรี</span></button>
-            <button class="sauce-btn" onclick="selectSauceOption('พริกเกลือกะปิแห้ง (ฟรี)')">พริกเกลือกะปิแห้ง <span>ฟรี</span></button>
-            <button class="sauce-btn" onclick="selectSauceOption('พริกเกลือลาวแซ่บ (ฟรี)')">พริกเกลือลาวแซ่บ <span>ฟรี</span></button>
-            <button class="sauce-btn" onclick="selectSauceOption('น้ำจิ้มบ๊วยเค็ม (ฟรี)')">น้ำจิ้มบ๊วยเค็ม <span>ฟรี</span></button>
-            <button class="sauce-btn" onclick="selectSauceOption('กะปิปลาร้า (+20 บาท)')">กะปิปลาร้า <span style="color:var(--primary);">+20 บาท</span></button>
-            <button class="sauce-btn" onclick="selectSauceOption('กะปิหวาน (+20 บาท)')">กะปิหวาน <span style="color:var(--primary);">+20 บาท</span></button>
-            
-            <button class="btn-close-modal" onclick="closeSauceModal()">ปิดหน้าต่าง</button>
-        </div>
-    </div>
-
-    <!-- แถบยืนยันคำสั่งซื้อ -->
-    <div class="floating-cart-bar">
-        <div class="cart-inner">
-            <div class="cart-total-info">
-                <span class="cart-item-count">จำนวน <b id="total-qty">0</b> รายการ</span>
-                <span class="cart-price-sum" id="total-price">0 บาท</span>
-            </div>
-            <button class="btn-confirm-order" id="btn-submit" onclick="submitOrder()">ยืนยันการสั่งซื้อ</button>
-        </div>
-    </div>
-
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="spinner"></div>
-        <div class="loading-title">ระบบกำลังส่งคำสั่งซื้อ</div>
-        <div class="loading-sub">กรุณารอสักครู่ อย่าเพิ่งออกจากหน้านี้นะคะ</div>
-    </div>
-
-    <script>
-        const MENU_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyaPiqWEQhgM7nxSTDj67DU_8TsWVu36aJNLagaQ33OBRKGErUyiA2x3M9YiMF7kuvL/exec'; 
-        const ORDER_API_URL = 'https://script.google.com/macros/s/AKfycbw_E7mdky1b9Jle_1YK6-a4SOgbm7nAHYJOtTgS3aNrizeFiOxwywT92BqI8NA7RrEeOA/exec';
-        const MY_LIFF_ID = '2011847809-BCDUYMKz';
-
-        let menuData = [], itemDictionary = {}, cart = {}, cartSauces = {};
-        let activeItemId = '', activeIndex = 0;
-        let selectedDuoItems = [];
-        let duoUniqueCounter = 0;
-
-        function loadCustomerMemory() {
-            try {
-                const n = localStorage.getItem('poksai_customer_name');
-                const p = localStorage.getItem('poksai_customer_phone');
-                const a = localStorage.getItem('poksai_customer_address');
-                if (n) document.getElementById('cust-name').value = n;
-                if (p) document.getElementById('cust-phone').value = p;
-                if (a) document.getElementById('cust-address').value = a;
-            } catch (e) {}
-        }
-
-        async function initLiff() {
-            loadCustomerMemory();
-            try { 
-                await liff.init({ liffId: MY_LIFF_ID }); 
-                if (liff.isLoggedIn() && !document.getElementById('cust-name').value) {
-                    const prof = await liff.getProfile();
-                    if (prof?.displayName) document.getElementById('cust-name').value = prof.displayName;
+            <div class="product-footer">
+              <div class="product-price">
+                ${item.price > 0 ? `${item.price} <small>฿</small>` : '<small style="color:var(--primary); font-weight:600;">ฟรี / สอบถาม</small>'}
+              </div>
+              <div>
+                ${!isAvailable
+                  ? `<button class="add-btn" disabled>สินค้าหมด</button>`
+                  : (hasSweetFishSauce
+                      ? `<button class="add-btn" onclick="handleItemClick(${item.id})">${totalItemQty > 0 ? `+ เพิ่ม (${totalItemQty})` : '+ สั่งซื้อ'}</button>`
+                      : (totalItemQty === 0
+                          ? `<button class="add-btn" onclick="handleItemClick(${item.id})">+ สั่งซื้อ</button>`
+                          : `<div class="qty-control">
+                              <button class="qty-btn" onclick="updateQtyByItemId(${item.id}, -1)">-</button>
+                              <span class="qty-count">${totalItemQty}</span>
+                              <button class="qty-btn" onclick="updateQtyByItemId(${item.id}, 1)">+</button>
+                            </div>`
+                        )
+                    )
                 }
-            } catch (e) {}
+              </div>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+
+      if (!hasProduct) {
+        container.innerHTML = `<div style="text-align: center; padding: 40px; color: #888;">ไม่มีรายการสินค้าในหมวดหมู่นี้</div>`;
+      }
+    }
+
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(cat) || (cat === 'ทั้งหมด' && btn.innerText === 'ทั้งหมด'));
+      });
+      renderMenu();
+    }
+
+    function handleItemClick(id) {
+      const item = menuItems.find(m => m.id === id);
+      if (!item) return;
+
+      if (item.name.includes('น้ำปลาหวาน')) {
+        pendingItemId = id;
+        document.getElementById('optionModalTitle').innerText = `${item.name}`;
+        document.getElementById('sweetFishSauceModal').classList.add('active');
+      } else {
+        addToCartKey(`${id}`, item.name, item.price, '');
+      }
+    }
+
+    function closeOptionModal() {
+      document.getElementById('sweetFishSauceModal').classList.remove('active');
+      pendingItemId = null;
+    }
+
+    function selectSauceOption(sauceName) {
+      if (!pendingItemId) return;
+      const item = menuItems.find(m => m.id === pendingItemId);
+      if (item) {
+        const cartKey = `${item.id}___${sauceName}`;
+        addToCartKey(cartKey, item.name, item.price, sauceName);
+      }
+      closeOptionModal();
+    }
+
+    function addToCartKey(key, name, price, option) {
+      const numPrice = Number(price) || 0;
+      if (!cart[key]) {
+        cart[key] = {
+          id: pendingItemId || parseInt(key.split('___')[0], 10),
+          name: name,
+          price: numPrice,
+          option: option,
+          qty: 1
+        };
+      } else {
+        cart[key].qty = (Number(cart[key].qty) || 0) + 1;
+      }
+      updateCartBar();
+      renderMenu();
+    }
+
+    function updateQtyByKey(key, delta) {
+      if (cart[key]) {
+        cart[key].qty = (Number(cart[key].qty) || 0) + delta;
+        if (cart[key].qty <= 0) {
+          delete cart[key];
+        }
+      }
+      updateCartBar();
+      renderMenu();
+      if (document.getElementById('checkoutModal').classList.contains('active')) {
+        renderModalCart();
+      }
+    }
+
+    function updateQtyByItemId(id, delta) {
+      const key = `${id}`;
+      if (cart[key]) {
+        updateQtyByKey(key, delta);
+      } else {
+        const foundKey = Object.keys(cart).find(k => cart[k].id === id);
+        if (foundKey) updateQtyByKey(foundKey, delta);
+      }
+    }
+
+    function updateCartBar() {
+      const keys = Object.keys(cart);
+      const bar = document.getElementById('cartBar');
+      if (keys.length === 0) {
+        bar.classList.add('hidden');
+        return;
+      }
+      bar.classList.remove('hidden');
+
+      let totalItems = 0;
+      let totalPrice = 0;
+
+      keys.forEach(k => {
+        const q = Number(cart[k].qty) || 0;
+        const p = Number(cart[k].price) || 0;
+        totalItems += q;
+        totalPrice += (p * q);
+      });
+
+      document.getElementById('cartCountText').innerText = `เลือกแล้ว ${totalItems} รายการ`;
+      document.getElementById('cartTotalText').innerText = `รวม ${totalPrice.toLocaleString()} ฿`;
+    }
+
+    function openCheckoutModal() {
+      renderModalCart();
+      document.getElementById('checkoutModal').classList.add('active');
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.remove('active');
+    }
+
+    function renderModalCart() {
+      const list = document.getElementById('cartItemsList');
+      list.innerHTML = '';
+      const keys = Object.keys(cart);
+
+      if (keys.length === 0) {
+        list.innerHTML = '<p style="text-align:center; color:#999; padding:20px;">ยังไม่มีสินค้าในตะกร้า</p>';
+        document.getElementById('modalTotalAmount').innerText = '0 ฿';
+        return;
+      }
+
+      let grandTotal = 0;
+      keys.forEach(key => {
+        const item = cart[key];
+        const p = Number(item.price) || 0;
+        const q = Number(item.qty) || 0;
+        const subtotal = p * q;
+        grandTotal += subtotal;
+
+        let displayName = item.name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}]/gu, '').trim();
+        let subOptionHtml = '';
+        if (item.option) {
+          subOptionHtml = `<div style="font-size:0.8rem; color:#166534; font-weight:500;">- ${item.option}</div>`;
         }
 
-        async function loadData() {
-            try {
-                let res = await fetch(`${MENU_SCRIPT_URL}?action=getData&t=${Date.now()}`);
-                let data = await res.json();
-                
-                if (!Array.isArray(data) || data.length === 0) {
-                    res = await fetch(`${ORDER_API_URL}?action=getData&t=${Date.now()}`);
-                    data = await res.json();
-                }
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        row.innerHTML = `
+          <div style="flex:1;">
+            <div style="font-weight:600; font-size:0.95rem;">${displayName}</div>
+            ${subOptionHtml}
+            <div style="font-size:0.8rem; color:#64748b;">${p > 0 ? `@${p} ฿ × ${q} =${subtotal.toLocaleString()} ฿` : 'บริการฟรี'}</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="updateQtyByKey('${key}', -1)">-</button>
+            <span class="qty-count">${q}</span>
+            <button class="qty-btn" onclick="updateQtyByKey('${key}', 1)">+</button>
+          </div>
+        `;
+        list.appendChild(row);
+      });
 
-                if (!Array.isArray(data) || data.length === 0) throw new Error("Empty menu");
-                menuData = data;
-                menuData.forEach(item => { itemDictionary[item.id] = item; });
-                
-                renderMenu();
-                preRenderDuoFruitList();
-            } catch (e) {
-                console.error("Load menu error:", e);
-                document.getElementById('menu-container').innerHTML = '<div style="text-align:center; padding:30px; color:#e74c3c; font-size:13px;">ไม่สามารถโหลดรายการสินค้าได้ กรุณารีเฟรชหน้าจอ</div>';
-            }
+      document.getElementById('modalTotalAmount').innerText = `${grandTotal.toLocaleString()} ฿`;
+    }
+
+    function copyOrderDetails() {
+      const keys = Object.keys(cart);
+      if (keys.length === 0) {
+        alert('กรุณาเลือกรายการอย่างน้อย 1 รายการค่ะ');
+        return;
+      }
+
+      let grandTotal = 0;
+      let text = 'รายการคำสั่งซื้อ\n';
+      text += '____________\n';
+
+      keys.forEach((key, idx) => {
+        const item = cart[key];
+        const p = Number(item.price) || 0;
+        const q = Number(item.qty) || 0;
+        const subtotal = p * q;
+        grandTotal += subtotal;
+
+        // ตัดอีโมจิออกจากชื่อสินค้า
+        const cleanName = item.name.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}]/gu, '').trim();
+        text += `${idx + 1}. ${cleanName} ×${q} (${subtotal > 0 ? `${subtotal.toLocaleString()}฿` : 'ฟรี'})\n`;
+
+        // บรรทัดย่อยระบุสูตรน้ำปลาหวาน
+        if (item.option) {
+          text += `       - ${item.option}\n`;
         }
-
-        const isService = item => /บริการ|service|addon/i.test(String(item.category || ''));
-        const isSauceEligible = name => !name.includes('ฝรั่งแช่บ๊วย') && /มะม่วง|สับปะรด|แอปเปิ้ล|ฝรั่ง/.test(name);
-
-        // ตรวจสอบว่าเมนูนี้ต้องเลือกน้ำจิ้มหรือไม่ (ดึงจาก Sheet คอลัมน์ G ก่อน และมี Fallback)
-        function checkItemHasSauce(item) {
-            if (!item || isService(item)) return false;
-            const val = item.hasSauce !== undefined ? item.hasSauce : (item['เลือกน้ำจิ้ม'] !== undefined ? item['เลือกน้ำจิ้ม'] : item['มีน้ำจิ้ม']);
-            if (val !== undefined && val !== null && val !== '') {
-                if (typeof val === 'boolean') return val;
-                const str = String(val).trim().toLowerCase();
-                return str === 'true' || str === '1' || str === 'มี' || str === 'ใช่';
-            }
-            return isSauceEligible(item.name || '');
-        }
-
-        function isPremiumFruit(item) {
-            if (!item) return false;
-            const name = item.name || '';
-            const price = Number(item.price) || 0;
-            const hasKeyword = /เมล่อน|เอนวี่|envy|กีวี่|กีวี|อะโวคาโด้|อะโวคาโด/i.test(name);
-            return hasKeyword || price >= 90;
-        }
-
-        function renderMenu() {
-            const container = document.getElementById('menu-container');
-            container.innerHTML = '';
-            
-            const standardCats = [...new Set(menuData.map(i => Number(i.category)))].filter(c => !isNaN(c) && c >= 40 && c <= 100).sort((a,b)=>a-b);
-            standardCats.forEach(cat => {
-                const items = menuData.filter(i => Number(i.category) === cat && !isService(i));
-                if (items.length) createCategoryBlock(`กล่องละ ${cat} บาท`, items);
-            });
-
-            const premium = menuData.filter(i => !isNaN(Number(i.category)) && Number(i.category) > 100 && !isService(i));
-            if (premium.length) createCategoryBlock('ผลไม้พรีเมียม', premium);
-
-            const services = menuData.filter(i => isService(i));
-            if (services.length) createCategoryBlock('บริการเสริม / แพ็กเกจของขวัญ', services);
-
-            const dips = menuData.filter(i => !isNaN(Number(i.category)) && Number(i.category) < 40 && !isService(i));
-            if (dips.length) createCategoryBlock('น้ำจิ้มและพริกเกลือ (สั่งเพิ่ม)', dips, true);
-
-            renderDuoCartList();
-            updateCartBar();
-        }
-
-        function createCategoryBlock(title, items, isDip = false) {
-            const container = document.getElementById('menu-container');
-            const catHeader = document.createElement('div');
-            catHeader.className = 'category-title';
-            catHeader.innerText = title;
-            container.appendChild(catHeader);
-
-            items.forEach(item => {
-                const cartQty = cart[item.id] || 0;
-                const card = document.createElement('div');
-                card.className = 'product-card';
-
-                const priceText = isDip 
-                    ? (Number(item.category) === 0 || item.price === 0 ? '+10 บาท' : `+${item.price} บาท`)
-                    : `${item.price > 0 ? item.price + ' บาท' : 'ฟรี'}`;
-
-                let sauceHTML = '';
-                const hasSauce = checkItemHasSauce(item);
-
-                if (!isDip && !isService(item) && hasSauce && cartQty > 0) {
-                    sauceHTML = `<div class="sauce-summary-box"><div style="color:var(--text-sub); font-weight:600; margin-bottom:4px;">ตัวเลือกน้ำจิ้มที่ระบุ:</div>`;
-                    for (let i = 0; i < cartQty; i++) {
-                        if (!cartSauces[item.id]) cartSauces[item.id] = [];
-                        if (!cartSauces[item.id][i]) cartSauces[item.id][i] = 'พริกเกลือนัวร์ (ฟรี)';
-                        const cur = cartSauces[item.id][i];
-                        sauceHTML += `
-                            <div class="sauce-item-row">
-                                <span>กล่องที่ ${i+1}: <b>${cur}</b></span>
-                                <button class="sauce-change-btn" onclick="openSauceModal('${item.id}', ${i})">เปลี่ยน</button>
-                            </div>`;
-                    }
-                    sauceHTML += `</div>`;
-                }
-
-                card.innerHTML = `
-                    <div class="product-main">
-                        <div>
-                            <div class="product-title ${!item.available ? 'out-of-stock-text' : ''}">
-                                ${item.name} <span class="product-price">(${priceText})</span>
-                            </div>
-                            ${item.detail ? `<div class="product-desc">${item.detail}</div>` : ''}
-                            <div class="product-stock-tag ${item.available ? 'stock-available' : 'stock-out'}">
-                                ${item.available ? 'พร้อมจำหน่าย' : 'สินค้าหมด'}
-                            </div>
-                        </div>
-                        <div class="qty-controls">
-                            ${cartQty > 0 ? `
-                                <button class="qty-btn" onclick="handleMinus('${item.id}')">-</button>
-                                <span class="qty-number">${cartQty}</span>
-                            ` : ''}
-                            <button class="btn-select-init" onclick="handleAdd('${item.id}', ${isDip})" ${!item.available ? 'disabled' : ''}>
-                                ${cartQty > 0 ? '+ เพิ่ม' : 'เลือก'}
-                            </button>
-                        </div>
-                    </div>
-                    ${sauceHTML}
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        /* ------------------ ระบบผลไม้ดูโอ้ ------------------ */
-
-        function preRenderDuoFruitList() {
-            const listContainer = document.getElementById('duo-fruit-list');
-            listContainer.innerHTML = '';
-
-            const eligibleFruits = menuData.filter(i => 
-                !isService(i) && 
-                !isNaN(Number(i.category)) && 
-                Number(i.category) >= 40 && 
-                i.available && 
-                !i.name.includes('ยำ')
-            );
-            
-            eligibleFruits.forEach(item => {
-                const row = document.createElement('div');
-                row.className = 'duo-fruit-row';
-                row.innerHTML = `
-                    <span>${item.name}</span>
-                    <input type="checkbox" id="cb-duo-${item.id}" onchange="handleDuoFruitCheck(this, '${item.id}')">
-                `;
-                row.onclick = (e) => {
-                    if (e.target.tagName !== 'INPUT') {
-                        const cb = document.getElementById(`cb-duo-${item.id}`);
-                        cb.checked = !cb.checked;
-                        handleDuoFruitCheck(cb, item.id);
-                    }
-                };
-                listContainer.appendChild(row);
-            });
-        }
-
-        function openDuoModal() {
-            selectedDuoItems = [];
-            document.querySelectorAll('#duo-fruit-list input[type="checkbox"]').forEach(cb => cb.checked = false);
-            
-            document.getElementById('duo-addon-check').checked = false;
-            document.getElementById('duo-addon-section').style.display = 'none';
-
-            const sauceSec = document.getElementById('duo-sauce-section');
-            if (sauceSec) {
-                sauceSec.style.display = 'none';
-                document.getElementById('duo-sauce-select').value = 'พริกเกลือนัวร์ (ฟรี)';
-            }
-
-            updateDuoCalcPrice();
-            document.getElementById('duo-modal').style.display = 'flex';
-        }
-
-        function closeDuoModal() {
-            document.getElementById('duo-modal').style.display = 'none';
-        }
-
-        function handleDuoFruitCheck(checkbox, id) {
-            const item = itemDictionary[id];
-            if (checkbox.checked) {
-                if (selectedDuoItems.length >= 2) {
-                    checkbox.checked = false;
-                    alert('คุณสามารถเลือกผลไม้ได้สูงสุด 2 อย่างต่อหนึ่งกล่องค่ะ');
-                    return;
-                }
-                selectedDuoItems.push(item);
-            } else {
-                selectedDuoItems = selectedDuoItems.filter(i => i.id !== id);
-            }
-
-            const hasAvocado = selectedDuoItems.some(i => i.name.includes('อะโวคาโด้'));
-            document.getElementById('duo-addon-section').style.display = hasAvocado ? 'block' : 'none';
-            if (!hasAvocado) document.getElementById('duo-addon-check').checked = false;
-
-            // ตรวจสอบน้ำจิ้มในดูโอ้ด้วย checkItemHasSauce
-            const hasSauceFruit = selectedDuoItems.some(i => checkItemHasSauce(i));
-            const sauceSec = document.getElementById('duo-sauce-section');
-            if (sauceSec) {
-                sauceSec.style.display = hasSauceFruit ? 'block' : 'none';
-                if (!hasSauceFruit) {
-                    document.getElementById('duo-sauce-select').value = 'ไม่รับน้ำจิ้ม';
-                } else if (document.getElementById('duo-sauce-select').value === 'ไม่รับน้ำจิ้ม') {
-                    document.getElementById('duo-sauce-select').value = 'พริกเกลือนัวร์ (ฟรี)';
-                }
-            }
-
-            updateDuoCalcPrice();
-        }
-
-        function calculateDuoPrice(itemA, itemB, withAddon = false, withPaidSauce = false) {
-            if (!itemA || !itemB) return 70;
-            const isPremA = isPremiumFruit(itemA);
-            const isPremB = isPremiumFruit(itemB);
-            const premCount = (isPremA ? 1 : 0) + (isPremB ? 1 : 0);
-
-            let price = 70;
-            if (premCount === 2) {
-                price = 120;
-            } else if (premCount === 1) {
-                price = 95;
-            } else {
-                const priceA = Number(itemA.price) || 0;
-                const priceB = Number(itemB.price) || 0;
-                price = (priceA > 60 || priceB > 60) ? 85 : 70;
-            }
-
-            if (withAddon) price += 15;
-            if (withPaidSauce) price += 20;
-            return price;
-        }
-
-        function updateDuoCalcPrice() {
-            const countLabel = document.getElementById('duo-count-label');
-            const pricePreview = document.getElementById('duo-price-preview');
-            const confirmBtn = document.getElementById('btn-confirm-duo');
-
-            countLabel.innerText = `(เลือกแล้ว ${selectedDuoItems.length}/2 อย่าง)`;
-
-            if (selectedDuoItems.length === 2) {
-                const withAddon = document.getElementById('duo-addon-check').checked;
-                const hasSauceFruit = selectedDuoItems.some(i => checkItemHasSauce(i));
-                const sauceSelect = document.getElementById('duo-sauce-select');
-                const withPaidSauce = hasSauceFruit && sauceSelect && sauceSelect.value.includes('+20');
-
-                const price = calculateDuoPrice(selectedDuoItems[0], selectedDuoItems[1], withAddon, withPaidSauce);
-                pricePreview.innerText = `${price} บาท`;
-                confirmBtn.disabled = false;
-            } else {
-                pricePreview.innerText = `เลือกอีก ${2 - selectedDuoItems.length} อย่าง`;
-                confirmBtn.disabled = true;
-            }
-        }
-
-        function addDuoBoxToCart() {
-            if (selectedDuoItems.length !== 2) return;
-            const withAddon = document.getElementById('duo-addon-check').checked;
-            
-            const hasSauceFruit = selectedDuoItems.some(i => checkItemHasSauce(i));
-            const sauceSelect = document.getElementById('duo-sauce-select');
-            const withPaidSauce = hasSauceFruit && sauceSelect && sauceSelect.value.includes('+20');
-            
-            const finalPrice = calculateDuoPrice(selectedDuoItems[0], selectedDuoItems[1], withAddon, withPaidSauce);
-
-            const duoId = 'DUO_' + (++duoUniqueCounter);
-            const addonText = withAddon ? ' (+น้ำผึ้งมูสลี่)' : '';
-            const boxName = `ผลไม้ดูโอ้ (${selectedDuoItems[0].name} + ${selectedDuoItems[1].name}${addonText})`;
-
-            itemDictionary[duoId] = {
-                id: duoId,
-                name: boxName,
-                price: finalPrice,
-                category: finalPrice,
-                available: true,
-                isDuo: true
-            };
-
-            cart[duoId] = 1;
-
-            if (hasSauceFruit && sauceSelect) {
-                cartSauces[duoId] = [sauceSelect.value];
-            }
-
-            closeDuoModal();
-            renderDuoCartList();
-            updateCartBar();
-        }
-
-        function renderDuoCartList() {
-            const container = document.getElementById('duo-cart-container');
-            const duoKeys = Object.keys(cart).filter(id => id.startsWith('DUO_'));
-            
-            if (duoKeys.length === 0) {
-                container.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            duoKeys.forEach(id => {
-                const item = itemDictionary[id];
-                if (!item) return;
-                const sauceName = (cartSauces[id] && cartSauces[id][0] && !cartSauces[id][0].includes('ไม่รับ')) ? cartSauces[id][0] : '';
-                html += `
-                    <div class="duo-cart-item">
-                        <div>
-                            <div class="duo-cart-title">${item.name}</div>
-                            <div class="duo-cart-sub">${item.price} บาท</div>
-                            ${sauceName ? `<div style="font-size:11px; color:var(--text-sub); margin-top:2px;">น้ำจิ้ม: <b>${sauceName}</b></div>` : ''}
-                        </div>
-                        <button class="btn-duo-delete" onclick="removeDuoItem('${id}')">ลบ</button>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function removeDuoItem(id) {
-            delete cart[id];
-            delete itemDictionary[id];
-            delete cartSauces[id];
-            renderDuoCartList();
-            updateCartBar();
-        }
-
-        /* ------------------ เมนูปกติและตะกร้าสินค้า ------------------ */
-
-        function handleAdd(id, isDip = false) {
-            const item = itemDictionary[id];
-            if (!isDip && !isService(item) && checkItemHasSauce(item)) {
-                openSauceModal(id, cart[id] || 0);
-            } else {
-                cart[id] = (cart[id] || 0) + 1;
-                renderMenu();
-            }
-        }
-
-        function handleMinus(id) {
-            if (!cart[id]) return;
-            cart[id] -= 1;
-            if (cartSauces[id]) cartSauces[id].pop();
-            if (cart[id] <= 0) { delete cart[id]; delete cartSauces[id]; }
-            renderMenu();
-        }
-
-        function openSauceModal(id, idx) {
-            activeItemId = id; activeIndex = idx;
-            document.getElementById('modal-product-name').innerText = itemDictionary[id].name;
-            document.getElementById('modal-box-index').innerText = `กล่องที่ ${idx + 1}`;
-            document.getElementById('sauce-modal').style.display = 'flex';
-        }
-
-        function closeSauceModal() { document.getElementById('sauce-modal').style.display = 'none'; }
-
-        function selectSauceOption(s) {
-            const id = activeItemId, idx = activeIndex;
-            if (!cart[id] || idx >= cart[id]) cart[id] = (cart[id] || 0) + 1;
-            if (!cartSauces[id]) cartSauces[id] = [];
-            cartSauces[id][idx] = s;
-            closeSauceModal();
-            renderMenu();
-        }
-
-        function updateCartBar() {
-            let totalQty = 0, totalPrice = 0;
-            for (const [id, qty] of Object.entries(cart)) {
-                const item = itemDictionary[id];
-                if (!item) continue;
-                let price = (!isNaN(Number(item.category)) && Number(item.category) < 40 && !isService(item)) ? (Number(item.category) === 0 ? 10 : item.price) : item.price;
-                totalQty += qty; totalPrice += price * qty;
-            }
-            document.getElementById('total-qty').innerText = totalQty;
-            document.getElementById('total-price').innerText = totalPrice + ' บาท';
-        }
-
-        async function submitOrder() {
-            if (!Object.keys(cart).length) { alert('กรุณาเลือกรายการสินค้าอย่างน้อย 1 รายการ'); return; }
-
-            const name = document.getElementById('cust-name').value.trim();
-            const phone = document.getElementById('cust-phone').value.trim();
-            const address = document.getElementById('cust-address').value.trim();
-            const note = document.getElementById('cust-note').value.trim();
-
-            if (!name) { alert('กรุณากรอกชื่อลูกค้า'); document.getElementById('cust-name').focus(); return; }
-            if (!phone) { alert('กรุณากรอกเบอร์โทรศัพท์'); document.getElementById('cust-phone').focus(); return; }
-            if (!address) { alert('กรุณากรอกสถานที่จัดส่ง'); document.getElementById('cust-address').focus(); return; }
-
-            const loadingOverlay = document.getElementById('loading-overlay');
-            loadingOverlay.style.display = 'flex';
-
-            try {
-                localStorage.setItem('poksai_customer_name', name);
-                localStorage.setItem('poksai_customer_phone', phone);
-                localStorage.setItem('poksai_customer_address', address);
-            } catch (e) {}
-
-            let subtotal = 0;
-            const itemContents = [];
-            const cloudItems = [];
-
-            for (const [id, qty] of Object.entries(cart)) {
-                const product = itemDictionary[id];
-                if (!product) continue;
-                let price = (!isNaN(Number(product.category)) && Number(product.category) < 40 && !isService(product)) ? (Number(product.category) === 0 ? 10 : product.price) : product.price;
-                const totalItemPrice = price * qty;
-                subtotal += totalItemPrice;
-
-                itemContents.push({
-                    type: "box", layout: "horizontal",
-                    contents: [
-                        { type: "text", text: `${product.name} x${qty}`, size: "sm", color: "#2c3e50", flex: 4, weight: "bold", wrap: true },
-                        { type: "text", text: `${totalItemPrice} บาท`, size: "sm", color: "#2c3e50", align: "end", flex: 2, weight: "bold" }
-                    ]
-                });
-
-                const saucesForThisItem = (cartSauces[id] || []).slice(0, qty);
-                if (saucesForThisItem.length > 0) {
-                    const validSauces = saucesForThisItem.filter(s => s && !s.includes('ไม่รับ'));
-                    if (validSauces.length > 0) {
-                        itemContents.push({
-                            type: "box", layout: "baseline",
-                            contents: [{ type: "text", text: `น้ำจิ้ม: ${validSauces.join(', ')}`, size: "xs", color: "#7f8c8d", wrap: true }],
-                            margin: "xs"
-                        });
-                    }
-                }
-
-                cloudItems.push({ id: product.id, name: product.name, price: price, qty: qty, sauces: saucesForThisItem });
-            }
-
-            try {
-                const cloudUrl = `${ORDER_API_URL}?action=createOrder`
-                    + `&name=${encodeURIComponent(name)}`
-                    + `&phone=${encodeURIComponent(phone)}`
-                    + `&address=${encodeURIComponent(address)}`
-                    + `&note=${encodeURIComponent(note)}`
-                    + `&items=${encodeURIComponent(JSON.stringify(cloudItems))}`
-                    + `&total=${encodeURIComponent(subtotal)}`;
-                await fetch(cloudUrl, { mode: 'no-cors' });
-            } catch (err) {
-                console.warn("Cloud save error:", err);
-            }
-
-            const customerDetails = [
-                { type: "text", text: `ลูกค้า: คุณ ${name}`, size: "sm", weight: "bold", color: "#2c3e50" },
-                { type: "text", text: `เบอร์โทรศัพท์: ${phone}`, size: "sm", color: "#555555" },
-                { type: "text", text: `สถานที่จัดส่ง: ${address}`, size: "sm", color: "#555555", wrap: true }
-            ];
-            if (note) customerDetails.push({ type: "text", text: `หมายเหตุ: ${note}`, size: "sm", color: "#7f8c8d", wrap: true });
-
-            const flexMessage = {
-                type: "flex",
-                altText: `คำสั่งซื้อสินค้า: คุณ ${name} (${subtotal} บาท)`,
-                contents: {
-                    type: "bubble",
-                    header: {
-                        type: "box", layout: "vertical", backgroundColor: "#2c3e50", paddingAll: "16px",
-                        contents: [
-                            { type: "text", text: "ปอกใส่ปาก", weight: "bold", color: "#ffffff", size: "lg", align: "center" },
-                            { type: "text", text: "รายการสั่งซื้อสินค้าออนไลน์", color: "#bdc3c7", size: "xs", align: "center", margin: "xs" }
-                        ]
-                    },
-                    body: {
-                        type: "box", layout: "vertical", spacing: "md",
-                        contents: [
-                            { type: "box", layout: "vertical", spacing: "xs", contents: customerDetails },
-                            { type: "separator" },
-                            { type: "box", layout: "vertical", spacing: "sm", contents: itemContents },
-                            { type: "separator" },
-                            {
-                                type: "box", layout: "horizontal",
-                                contents: [
-                                    { type: "text", text: "รวมค่าสินค้า", size: "md", weight: "bold", color: "#2c3e50" },
-                                    { type: "text", text: `${subtotal} บาท`, size: "lg", weight: "bold", color: "#c0392b", align: "end" }
-                                ]
-                            },
-                            { type: "text", text: "* ยอดนี้ยังไม่รวมค่าจัดส่ง (เจ้าหน้าที่จะแจ้งสรุปยอดรวมอีกครั้ง)", size: "xxs", color: "#95a5a6", align: "center" }
-                        ]
-                    }
-                }
-            };
-
-            if (typeof liff !== 'undefined' && liff.isInClient() && liff.isLoggedIn()) {
-                try {
-                    await liff.sendMessages([flexMessage]);
-                    loadingOverlay.style.display = 'none';
-                    alert('ส่งรายการสั่งซื้อเรียบร้อยแล้ว');
-                    liff.closeWindow();
-                    return;
-                } catch (e) {
-                    console.error("LIFF send error:", e);
-                }
-            }
-
-            loadingOverlay.style.display = 'none';
-            alert('ระบบบันทึกรายการสั่งซื้อเรียบร้อยแล้ว แอดมินจะติดต่อยืนยันออเดอร์ในแชทสักครู่นะคะ');
-        }
-
-        initLiff();
-        loadData();
-    </script>
+      });
+
+      text += '____________\n';
+      text += `ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท\n`;
+      text += '**(ยังไม่รวมค่าจัดส่ง)**';
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast();
+        }).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast();
+      } catch (err) {
+        alert('ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาก๊อปปี้ด้วยตัวเองนะคะ');
+      }
+      document.body.removeChild(ta);
+    }
+
+    function showToast() {
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2800);
+    }
+
+    document.getElementById('checkoutModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCheckoutModal();
+    });
+    document.getElementById('sweetFishSauceModal').addEventListener('click', function(e) {
+      if (e.target === this) closeOptionModal();
+    });
+
+    loadDataJSONP();
+  </script>
 </body>
 </html>
