@@ -859,7 +859,7 @@
 
       let grandTotal = 0;
       let text = 'รายการคำสั่งซื้อ\n';
-      text += '____________\n';
+      text += '----------------------\n';
 
       keys.forEach((key, idx) => {
         const item = cart[key];
@@ -878,7 +878,7 @@
         }
       });
 
-      text += '____________\n';
+      text += '----------------------\n';
       text += `ยอดรวมสินค้า: ${grandTotal.toLocaleString()} บาท\n`;
       text += '**(ยังไม่รวมค่าจัดส่ง)**';
 
